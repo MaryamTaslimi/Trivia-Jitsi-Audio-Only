@@ -549,22 +549,6 @@
             lobbySettingsDialog.style.visibility = "hidden";
         }
 
-        function GetCurrentLobbyName() {
-            // fetch("{{.RootPath}}/v1/lobby")
-            //     .then((response) => {
-            //         return response.json();
-            //     })
-            //     .then((data) => {
-            //         data.forEach(lobby => {
-            //             if (lobby.lobby_id == '{{.LobbyID}}')
-            //             return lobby.lobby_nam
-            //             console.log('{{.LobbyID}}');
-            //         })
-            //     });
-            console.log('{{.LobbyID}}');
-        }
-
-
         function saveLobbySettings() {
             fetch("{{.RootPath}}/v1/lobby?" + new URLSearchParams({
                 lobby_id: '{{.LobbyID}}',
@@ -962,12 +946,12 @@
                 // playWav('{{.RootPath}}/resources/plop.wav');
 
                 if (parsed.data === ownID) {
-                    applyMessage("correct-guess-message", "", "You have correctly guessed the word.")
+                    applyMessage("correct-guess-message", "", "You have correctly guessed the answer.")
                 } else {
                     for (let i = 0; i < cachedPlayers.length; i++) {
                         let player = cachedPlayers[i];
                         if (player.id === parsed.data) {
-                            applyMessage("correct-guess-message", "", player.name + " correctly guessed the word.")
+                            applyMessage("correct-guess-message", "", player.name + " correctly guessed the answer.")
                             break;
                         }
                     }
@@ -1004,7 +988,8 @@
                 wordDialog.style.visibility = "hidden";
                 // playWav('{{.RootPath}}/resources/end-turn.wav');
 
-                clear(context);
+                // clear(context);
+                document.getElementById('question').innerHTML = "";
 
                 roundEndTime = parsed.data.roundEndTime;
                 applyRounds(parsed.data.round, maxRounds);
@@ -1015,9 +1000,9 @@
 
                 if (parsed.data.previousWord !== null) {
                     if (parsed.data.previousWord === "") {
-                        applyMessage("system-message", "", "Round over. No word was chosen.");
+                        applyMessage("system-message", "", "Round over. No question was chosen.");
                     } else {
-                        applyMessage("system-message", "", "Round over. Previous word was '" + parsed.data.previousWord + "'");
+                        applyMessage("system-message", "", "Round over. Previous answer was '" + parsed.data.previousWord + "'");
                     }
                 }
 
