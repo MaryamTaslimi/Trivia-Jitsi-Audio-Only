@@ -159,8 +159,8 @@ func ssrEnterLobby(w http.ResponseWriter, r *http.Request) {
 		userFacingError(w, err.Error())
 		return
 	}
-
-	// TODO Improve this. Return metadata or so instead.
+	//TODO check cookie (check input lobby id with the cookie lobby id)
+	//TODO Improve this. Return metadata or so instead.
 	userAgent := strings.ToLower(r.UserAgent())
 	if !(strings.Contains(userAgent, "gecko") || strings.Contains(userAgent, "chrome") || strings.Contains(userAgent, "opera") || strings.Contains(userAgent, "safari")) {
 		userFacingError(w, "Sorry, no robots allowed.")

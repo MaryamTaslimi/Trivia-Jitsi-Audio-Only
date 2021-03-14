@@ -50,7 +50,7 @@
             </div>
 
             <span style="display: flex; flex-direction: row;">
-                <img src="{{.RootPath}}/resources/clock.png" style="height: 40px; width: auto; margin: auto;"
+                <img src="{{.RootPath}}/resources/clock-trivia.png" style="height: 40px; width: auto; margin: auto;"
                     alt="time left" />
                 <span
                     style="height: 40px; width: 150px;display:table; background-color:#00569e; border-radius: 25px; margin: auto;">
@@ -60,14 +60,19 @@
             </span>
             <div id="player-container">
                 <div>
-                    <h1 style="color:#f6d65c; font-size: 1rem; margin:10px;">Ranking</h1>
+                    <h1 style="color:#eb553a; font-size: 1rem; margin:10px;">Ranking</h1>
                 </div>
                 <div id="player-container-old"></div>
             </div>
             <div>
                 <div id="drawing-board-wrapper">
                     <div id="drawing-board-inner-wrapper">
-                        <canvas id="drawing-board"></canvas>
+                        <canvas id="drawing-board" style="display:none"></canvas>
+                        <div id="question-wrapper">
+                            <div id="question-container">
+                                <h1 id="question"></h1>
+                            </div>
+                        </div>
 
                         <!-- The so called "center dialogs" are divs that float above the canvas.
                 They are centered are always a fraction of the canvas size but never bigger.
@@ -84,12 +89,12 @@
                                             <button id="word-button-zero" class="dialog-button"
                                                 onclick="chooseWord(0)">Placeholder
                                             </button>
-                                            <button id="word-button-one" class="dialog-button"
+                                            <!-- <button id="word-button-one" class="dialog-button"
                                                 onclick="chooseWord(1)">Placeholder
                                             </button>
                                             <button id="word-button-two" class="dialog-button"
                                                 onclick="chooseWord(2)">Placeholder
-                                            </button>
+                                            </button> -->
                                         </div>
                                     </div>
                                 </div>
@@ -237,7 +242,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="toolbox" style="top: 420px;">
+                        <div id="toolbox" style="top: 420px;display:none;">
                             <input class="toolbox-group" type="color" id="color-picker" onchange="setColor()"
                                 value="#000000" alt="Current color (Click to change)"
                                 title="Current color (Click to change)">
@@ -479,8 +484,8 @@
         const restartButton = document.getElementById("restart-button");
         const wordDialog = document.getElementById("word-dialog");
         const wordButtonZero = document.getElementById("word-button-zero");
-        const wordButtonOne = document.getElementById("word-button-one");
-        const wordButtonTwo = document.getElementById("word-button-two");
+        // const wordButtonOne = document.getElementById("word-button-one");
+        // const wordButtonTwo = document.getElementById("word-button-two");
 
         const kickDialog = document.getElementById("kick-dialog");
         const kickDialogPlayers = document.getElementById("kick-dialog-players");
@@ -613,7 +618,7 @@
             drawingBoard.height = drawingBoard.clientHeight;
             toolBox.height = toolBox.clientHeight;
             setLineWidth(localLineWidthUnscaled);
-            chat.style.maxHeight = drawingBoard.height + toolBox.height + "px";
+            chat.style.maxHeight = document.getElementById('player-container').height + "px";
             toolBox.style.top = drawingBoard.height - toolBox.height + "px";
         }
 
@@ -876,6 +881,7 @@
         socket.onmessage = event => {
             let parsed = JSON.parse(event.data);
             console.log(parsed);
+            console.log(parsed);
             if (parsed.type === "ready") {
                 let ready = parsed.data;
                 handleReadyEvent(ready);
@@ -935,6 +941,7 @@
                         if (isSelf) {
                             if (player.rank == 1) {
                                 gameOverDialogTitle.innerText = "Congratulations, you won!";
+
                             } else {
                                 gameOverDialogTitle.innerText = "You placed " + player.rank + ". with " + player.score + " points";
                             }
@@ -1018,7 +1025,7 @@
             } else if (parsed.type === "your-turn") {
                 // playWav('{{.RootPath}}/resources/your-turn.wav');
 
-                promptWords(parsed.data[0], parsed.data[1], parsed.data[2]);
+                promptWords(parsed.data[0]);
             } else if (parsed.type === "drawing") {
                 applyDrawData(parsed.data);
             } else if (parsed.type === "kick-vote") {
@@ -1079,11 +1086,10 @@
             }
         }
 
-        function promptWords(wordOne, wordTwo, wordThree) {
-            wordButtonZero.textContent = wordOne;
-            wordButtonOne.textContent = wordTwo;
-            wordButtonTwo.textContent = wordThree;
-            wordDialog.style.visibility = "visible";
+        function promptWords(wordOne) {
+            var strwordOne = wordOne.split('$');
+            document.getElementById('question').innerHTML = strwordOne[0]
+            chooseWord(0);
         }
 
         // function playWav(file) {
@@ -1131,8 +1137,8 @@
             playerContainer.innerHTML = "";
             cachedPlayers = players;
             players.sort((a, b) => {
-                        return a.rank - b.rank;
-                    });
+                return a.rank - b.rank;
+            });
             players.forEach(function (player) {
                 //We don't wanna show the disconnected players.
                 if (!player.connected) {

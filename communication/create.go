@@ -61,6 +61,7 @@ func ssrCheckCode(w http.ResponseWriter, r *http.Request) {
 		var playerName = getPlayername(r)
 		LobbyCreate(playerName, Response.Group_Id+Response.Group_Name, Response.Group_Name, r, w)
 	}
+	//TODo set cookie
 	http.Redirect(w, r, CurrentBasePageConfig.RootPath+"/ssrEnterLobby?lobby_id="+Response.Group_Id, http.StatusFound)
 
 }
@@ -80,7 +81,7 @@ func LobbyCheck(value string) bool {
 }
 
 func LobbyCreate(playername string, groupid string, groupname string, Ip *http.Request, Res http.ResponseWriter) {
-	player, lobby, createError := game.CreateLobby(playername, groupid, groupname, "english", true, 75, 4, 12, 50, 3, nil, false)
+	player, lobby, createError := game.CreateLobby(playername, groupid, groupname, "geography", true, 75, 4, 12, 50, 3, nil, false)
 	if createError != nil {
 	}
 	player.SetLastKnownAddress(getIPAddressFromRequest(Ip))
@@ -109,7 +110,7 @@ func createDefaultLobbyCreatePageData() *CreatePageData {
 		CustomWordsChance: "50",
 		ClientsPerIPLimit: "3",
 		EnableVotekick:    "true",
-		Language:          "english",
+		Language:          "geography",
 	}
 }
 

@@ -34,7 +34,7 @@ var (
 	SupportedLanguages = map[string]string{
 		"english_gb": "English (GB)",
 		"english":    "English (US)",
-		"italian":    "Italian",
+		"geography":  "Geography",
 		"german":     "German",
 		"french":     "French",
 		"dutch":      "Dutch",
@@ -148,7 +148,9 @@ func HandleEvent(raw []byte, received *GameEvent, lobby *Lobby, player *Player) 
 
 		drawer := lobby.drawer
 		if player == drawer && len(lobby.wordChoice) > 0 && chosenIndex >= 0 && chosenIndex <= 2 {
-			lobby.CurrentWord = lobby.wordChoice[chosenIndex]
+			currentword := lobby.wordChoice[chosenIndex]
+			lastIndexNumberSign := strings.LastIndex(currentword, "$")
+			lobby.CurrentWord = currentword[lastIndexNumberSign+1:]
 
 			//Depending on how long the word is, a fixed amount of hints
 			//would be too easy or too hard.
@@ -532,7 +534,7 @@ func advanceLobby(lobby *Lobby) {
 	lobby.drawer = newDrawer
 	lobby.drawer.State = Drawing
 	lobby.state = ongoing
-	lobby.wordChoice = GetRandomWords(3, lobby)
+	lobby.wordChoice = GetRandomWords(1, lobby)
 
 	recalculateRanks(lobby)
 

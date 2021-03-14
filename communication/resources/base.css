@@ -4,7 +4,7 @@ html, body {
 
 body {
     font-family: 'SourceSansPro-Bold';
-    background-color: #f6d65c;
+    background-color: #eb553a;
     margin: 0;
 }
 
@@ -91,6 +91,6 @@ ul {
 
 .wfhomie-scribble-img {
     height: 65px;
-    width: 500px;
+    width: 410px;
     float: left;
   }

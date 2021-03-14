@@ -4,13 +4,13 @@
   background-color: #39b0a4;
   background: repeating-linear-gradient(
       90deg,
-      #eb553a 0,
-      #eb553a 1ch,
+      #f6d65c 0,
+      #f6d65c 1ch,
       transparent 0,
       transparent 1.5ch
     )
     0 100%/100% 2px no-repeat;
-  color: #eb553a;
+  color: #f6d65c;
   font: 5ch consolas, monospace;
   letter-spacing: 0.5ch;
   margin: 0 10px 10px 10px;
@@ -18,7 +18,7 @@
 
 #tokeninput:focus {
   outline: none;
-  color: #f6d65c;
+  color: #eb553a;
 }
 
 .center-container {
@@ -71,7 +71,8 @@
 }
 
 .tab-button:checked + .tab-label {
-  background-color: #eb553a;
+  /* here */
+  background-color: #f6d65c;
   border-bottom: 0.3rem solid #f6d65c;
   padding: 1rem;
   border-radius: 10px 10px 0 0;

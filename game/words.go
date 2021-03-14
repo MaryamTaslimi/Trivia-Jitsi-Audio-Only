@@ -15,7 +15,7 @@ var (
 	languageIdentifiers = map[string]string{
 		"english_gb": "en_gb",
 		"english":    "en_us",
-		"italian":    "it",
+		"geography":  "geo",
 		"german":     "de",
 		"french":     "fr",
 		"dutch":      "nl",
