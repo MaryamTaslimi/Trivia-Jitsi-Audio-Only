@@ -151,6 +151,11 @@ func HandleEvent(raw []byte, received *GameEvent, lobby *Lobby, player *Player) 
 			currentword := lobby.wordChoice[chosenIndex]
 			lastIndexNumberSign := strings.LastIndex(currentword, "$")
 			lobby.CurrentWord = currentword[lastIndexNumberSign+1:]
+			question := currentword[:lastIndexNumberSign]
+
+			TriggerUpdatePerPlayerEvent("show-question", func(player *Player) interface{} {
+				return question
+			}, lobby)
 
 			//Depending on how long the word is, a fixed amount of hints
 			//would be too easy or too hard.
@@ -875,11 +880,12 @@ func (lobby *Lobby) GetAvailableWordHints(player *Player) []*WordHint {
 	//The draw simple gets every character as a word-hint. We basically abuse
 	//the hints for displaying the word, instead of having yet another GUI
 	//element that wastes space.
-	if player.State == Drawing || player.State == Standby {
-		return lobby.wordHintsShown
-	} else {
-		return lobby.wordHints
-	}
+	// if player.State == Drawing || player.State == Standby {
+	// 	return lobby.wordHintsShown
+	// } else {
+	// 	return lobby.wordHints
+	// }
+	return lobby.wordHints
 }
 
 // JoinPlayer creates a new player object using the given name and adds it
