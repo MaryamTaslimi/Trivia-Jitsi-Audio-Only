@@ -227,44 +227,44 @@ func handleMessage(message string, sender *Player, lobby *Lobby) {
 		return
 	}
 
-	if sender.State == Drawing || sender.State == Standby {
-		sendMessageToAllNonGuessing(trimmedMessage, sender, lobby)
-	} else if sender.State == Guessing {
-		lowerCasedInput := lobby.lowercaser.String(trimmedMessage)
-		currentWord := lobby.CurrentWord
+	// if sender.State == Drawing || sender.State == Standby {
+	// 	sendMessageToAllNonGuessing(trimmedMessage, sender, lobby)
+	// } else if sender.State == Guessing {}
+	lowerCasedInput := lobby.lowercaser.String(trimmedMessage)
+	currentWord := lobby.CurrentWord
 
-		normInput := simplifyText(lowerCasedInput)
-		normSearched := simplifyText(currentWord)
+	normInput := simplifyText(lowerCasedInput)
+	normSearched := simplifyText(currentWord)
 
-		if normSearched == normInput {
-			secondsLeft := int(lobby.RoundEndTime/1000 - time.Now().UTC().UnixNano()/1000000000)
+	if normSearched == normInput {
+		secondsLeft := int(lobby.RoundEndTime/1000 - time.Now().UTC().UnixNano()/1000000000)
 
-			sender.LastScore = calculateGuesserScore(lobby.hintCount, lobby.hintsLeft, secondsLeft, lobby.DrawingTime)
-			sender.Score += sender.LastScore
+		sender.LastScore = calculateGuesserScore(lobby.hintCount, lobby.hintsLeft, secondsLeft, lobby.DrawingTime)
+		sender.Score += sender.LastScore
 
-			lobby.scoreEarnedByGuessers += sender.LastScore
-			sender.State = Standby
+		lobby.scoreEarnedByGuessers += sender.LastScore
+		sender.State = Standby
 
-			TriggerUpdateEvent("correct-guess", sender.ID, lobby)
+		TriggerUpdateEvent("correct-guess", sender.ID, lobby)
 
-			if !lobby.isAnyoneStillGuessing() {
-				advanceLobby(lobby)
-			} else {
-				//Since the word has been guessed correctly, we reveal it.
-				WriteAsJSON(sender, GameEvent{Type: "update-wordhint", Data: lobby.wordHintsShown})
-				recalculateRanks(lobby)
-				triggerPlayersUpdate(lobby)
-			}
-		} else if levenshtein.ComputeDistance(normInput, normSearched) == 1 {
-			WriteAsJSON(sender, GameEvent{Type: "close-guess", Data: trimmedMessage})
-			//In cases of a close guess, we still send the message to everyone.
-			//This allows other players to guess the word by watching what the
-			//other players are misstyping.
-			sendMessageToAll(trimmedMessage, sender, lobby)
+		if !lobby.isAnyoneStillGuessing() {
+			advanceLobby(lobby)
 		} else {
-			sendMessageToAll(trimmedMessage, sender, lobby)
+			//Since the word has been guessed correctly, we reveal it.
+			WriteAsJSON(sender, GameEvent{Type: "update-wordhint", Data: lobby.wordHintsShown})
+			recalculateRanks(lobby)
+			triggerPlayersUpdate(lobby)
 		}
+	} else if levenshtein.ComputeDistance(normInput, normSearched) == 1 {
+		WriteAsJSON(sender, GameEvent{Type: "close-guess", Data: trimmedMessage})
+		//In cases of a close guess, we still send the message to everyone.
+		//This allows other players to guess the word by watching what the
+		//other players are misstyping.
+		sendMessageToAll(trimmedMessage, sender, lobby)
+	} else {
+		sendMessageToAll(trimmedMessage, sender, lobby)
 	}
+
 }
 
 func calculateGuesserScore(hintCount, hintsLeft, secondsLeft, drawingTime int) int {
