@@ -934,7 +934,7 @@
                 }
             } else if (parsed.type === "update-players") {
                 applyPlayers(parsed.data);
-            } else if (parsed.type === "show-question") { 
+            } else if (parsed.type === "show-question") {
                 document.getElementById('question').innerHTML = parsed.data;
             } else if (parsed.type === "name-change") {
                 const playernameSpan = document.getElementById("playername-" + parsed.data.playerId);
@@ -1142,9 +1142,7 @@
                     newPlayerElement += '<span>&#128081;</span>';
                 else
                     newPlayerElement += '<span></span>';
-                if (player.state === "drawing") {
-                    newPlayerElement += '<span class="rank">✏️</span>';
-                } else if (player.state === "standby") {
+                if (player.state === "standby") {
                     newPlayerElement += '<span>✔️</span>';
                 } else
                     newPlayerElement += '<span></span>';
