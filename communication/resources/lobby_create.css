@@ -1,3 +1,23 @@
+.category-box {
+  flex: 1 0 25%;
+  margin: 20px;
+  height: 150px;
+  background-color: #f6d65c;
+  border-radius: 25px;
+  border: 0px;
+  font-family: 'SourceSansPro-Bold';
+  font-size: xx-large;
+  color: #eb553a;
+}
+
+#category-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 80px 0 80px;
+  margin: auto;
+  width: 80%;
+}
+
 #tokeninput {
   border: none;
   width: 15ch;

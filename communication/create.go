@@ -58,8 +58,12 @@ func ssrCheckCode(w http.ResponseWriter, r *http.Request) {
 
 	var lobbycheck bool = LobbyCheck(Response.Group_Id)
 	if lobbycheck == false {
-		var playerName = getPlayername(r)
-		LobbyCreate(playerName, Response.Group_Id+Response.Group_Name, Response.Group_Name, r, w)
+		err := pageTemplates.ExecuteTemplate(w, "select-category-page", createDefaultSelectCategoryPageData(Response.Group_Name, Response.Group_Id))
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+		// var playerName = getPlayername(r)
+		// LobbyCreate(playerName, Response.Group_Id+Response.Group_Name, Response.Group_Name, r, w)
 	}
 	//TODo set cookie
 	http.Redirect(w, r, CurrentBasePageConfig.RootPath+"/ssrEnterLobby?lobby_id="+Response.Group_Id, http.StatusFound)
@@ -114,12 +118,31 @@ func createDefaultLobbyCreatePageData() *CreatePageData {
 	}
 }
 
+func createDefaultSelectCategoryPageData(groupname string, groupid string) *CreatePageData {
+	return &CreatePageData{
+		BasePageConfig:    CurrentBasePageConfig,
+		SettingBounds:     game.LobbySettingBounds,
+		WFHomieGroupName:  groupname,
+		WFHomieGroupId:    groupid,
+		Languages:         game.SupportedLanguages,
+		Public:            "true",
+		DrawingTime:       "75",
+		Rounds:            "5",
+		MaxPlayers:        "12",
+		CustomWordsChance: "50",
+		ClientsPerIPLimit: "3",
+		EnableVotekick:    "true",
+		Language:          "geography",
+	}
+}
+
 // CreatePageData defines all non-static data for the lobby create page.
 type CreatePageData struct {
 	*BasePageConfig
 	*game.SettingBounds
 	Errors            []string
-	WFHomiePlayerName string
+	WFHomieGroupName  string
+	WFHomieGroupId    string
 	Languages         map[string]string
 	Public            string
 	DrawingTime       string
@@ -198,13 +221,13 @@ func ssrCreateLobby(w http.ResponseWriter, r *http.Request) {
 		pageData.Errors = append(pageData.Errors, publicLobbyInvalid.Error())
 	}
 
-	if len(pageData.Errors) != 0 {
-		err := pageTemplates.ExecuteTemplate(w, "lobby-create-page", pageData)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-		}
-		return
-	}
+	// if len(pageData.Errors) != 0 {
+	// 	err := pageTemplates.ExecuteTemplate(w, "lobby-create-page", pageData)
+	// 	if err != nil {
+	// 		http.Error(w, err.Error(), http.StatusInternalServerError)
+	// 	}
+	// 	return
+	// }
 
 	var playerName = getPlayername(r)
 	// var playerName = parseWFHomiePlayerName(r.Form.Get("WFHomie_player_name"))
@@ -213,10 +236,6 @@ func ssrCreateLobby(w http.ResponseWriter, r *http.Request) {
 	player, lobby, createError := game.CreateLobby(playerName, WFHomiegroupId, WFHomiegroupName, language, publicLobby, drawingTime, rounds, maxPlayers, customWordChance, clientsPerIPLimit, customWords, enableVotekick)
 	if createError != nil {
 		pageData.Errors = append(pageData.Errors, createError.Error())
-		templateError := pageTemplates.ExecuteTemplate(w, "lobby-create-page", pageData)
-		if templateError != nil {
-			userFacingError(w, templateError.Error())
-		}
 		return
 	}
 
