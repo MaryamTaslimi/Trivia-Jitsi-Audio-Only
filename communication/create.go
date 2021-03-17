@@ -66,7 +66,7 @@ func ssrCheckCode(w http.ResponseWriter, r *http.Request) {
 		// LobbyCreate(playerName, Response.Group_Id+Response.Group_Name, Response.Group_Name, r, w)
 	}
 	//TODo set cookie
-	http.Redirect(w, r, CurrentBasePageConfig.RootPath+"/ssrEnterLobby?lobby_id="+Response.Group_Id, http.StatusFound)
+	http.Redirect(w, r, CurrentBasePageConfig.RootPath+"/ssrEnterLobby?lobby_id="+Response.Group_Id+Response.Group_Name, http.StatusFound)
 
 }
 
@@ -233,7 +233,7 @@ func ssrCreateLobby(w http.ResponseWriter, r *http.Request) {
 	// var playerName = parseWFHomiePlayerName(r.Form.Get("WFHomie_player_name"))
 	// var groupName = parseWFHomieGroupName(r.Form.Get("WFHomie_group_name"))
 
-	player, lobby, createError := game.CreateLobby(playerName, WFHomiegroupId, WFHomiegroupName, language, publicLobby, drawingTime, rounds, maxPlayers, customWordChance, clientsPerIPLimit, customWords, enableVotekick)
+	player, lobby, createError := game.CreateLobby(playerName, WFHomiegroupId+WFHomiegroupName, WFHomiegroupName, language, publicLobby, drawingTime, rounds, maxPlayers, customWordChance, clientsPerIPLimit, customWords, enableVotekick)
 	if createError != nil {
 		pageData.Errors = append(pageData.Errors, createError.Error())
 		return
