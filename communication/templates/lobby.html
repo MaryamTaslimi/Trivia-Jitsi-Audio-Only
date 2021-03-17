@@ -1054,7 +1054,6 @@
         function handleReadyEvent(ready) {
             ownerID = ready.ownerId;
             setUsernameLocally(ready.playerName);
-            jitsi();
             allowDrawing = ready.allowDrawing;
             ownID = ready.playerId;
             maxRounds = ready.maxRounds;
@@ -1481,7 +1480,7 @@
             // set with an string to default value, "John Doe" by example
 
             // localDisplayName = document.getElementById('namechange-field-start-dialog').value;
-            console.log(localDisplayName);
+
             var domain = "meet.jit.si";
             var options = {
                 roomName: '{{.LobbyID}}',
@@ -1493,6 +1492,7 @@
                 interfaceConfigOverwrite: { TILE_VIEW_MAX_COLUMNS: 2, SHOW_CHROME_EXTENSION_BANNER: false }
             }
             var api = new JitsiMeetExternalAPI(domain, options);
+            api.executeCommand('toggleTileView');
             api.executeCommand('displayName', localDisplayName);
 
             api.addEventListeners({
@@ -1510,11 +1510,23 @@
                     videoConferenceJoined = true;
                 }
             });
+            api.addEventListener(`videoConferenceJoined`, () => {
+                const listener = ({ enabled }) => {
+                    api.removeEventListener(`tileViewChanged`, listener);
+
+                    if (!enabled) {
+                        api.executeCommand(`toggleTileView`);
+                    }
+                };
+
+                api.addEventListener(`tileViewChanged`, listener);
+                api.executeCommand(`toggleTileView`);
+            });
         }
+        jitsi();
 
     </script>
 </body>
 
 </html>
 {{end}}
-
