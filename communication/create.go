@@ -56,7 +56,7 @@ func ssrCheckCode(w http.ResponseWriter, r *http.Request) {
 	}
 	log.Printf(Response.Group_Name)
 
-	var lobbycheck bool = LobbyCheck(Response.Group_Id)
+	var lobbycheck bool = LobbyCheck(Response.Group_Id + Response.Group_Name)
 	if lobbycheck == false {
 		err := pageTemplates.ExecuteTemplate(w, "select-category-page", createDefaultSelectCategoryPageData(Response.Group_Name, Response.Group_Id))
 		if err != nil {
@@ -64,10 +64,10 @@ func ssrCheckCode(w http.ResponseWriter, r *http.Request) {
 		}
 		// var playerName = getPlayername(r)
 		// LobbyCreate(playerName, Response.Group_Id+Response.Group_Name, Response.Group_Name, r, w)
+	} else {
+		//TODo set cookie
+		http.Redirect(w, r, CurrentBasePageConfig.RootPath+"/ssrEnterLobby?lobby_id="+Response.Group_Id+Response.Group_Name, http.StatusFound)
 	}
-	//TODo set cookie
-	http.Redirect(w, r, CurrentBasePageConfig.RootPath+"/ssrEnterLobby?lobby_id="+Response.Group_Id+Response.Group_Name, http.StatusFound)
-
 }
 
 func LobbyCheck(value string) bool {
