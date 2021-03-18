@@ -22,7 +22,7 @@ import (
 
 var (
 	LobbySettingBounds = &SettingBounds{
-		MinDrawingTime:       60,
+		MinDrawingTime:       10,
 		MaxDrawingTime:       300,
 		MinRounds:            1,
 		MaxRounds:            20,

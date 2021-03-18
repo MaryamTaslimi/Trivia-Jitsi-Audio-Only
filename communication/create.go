@@ -85,7 +85,7 @@ func LobbyCheck(value string) bool {
 }
 
 func LobbyCreate(playername string, groupid string, groupname string, Ip *http.Request, Res http.ResponseWriter) {
-	player, lobby, createError := game.CreateLobby(playername, groupid, groupname, "geography", true, 75, 4, 12, 50, 3, nil, false)
+	player, lobby, createError := game.CreateLobby(playername, groupid, groupname, "geography", true, 20, 4, 12, 50, 3, nil, false)
 	if createError != nil {
 	}
 	player.SetLastKnownAddress(getIPAddressFromRequest(Ip))
@@ -108,7 +108,7 @@ func createDefaultLobbyCreatePageData() *CreatePageData {
 		SettingBounds:     game.LobbySettingBounds,
 		Languages:         game.SupportedLanguages,
 		Public:            "true",
-		DrawingTime:       "75",
+		DrawingTime:       "20",
 		Rounds:            "4",
 		MaxPlayers:        "12",
 		CustomWordsChance: "50",
@@ -126,7 +126,7 @@ func createDefaultSelectCategoryPageData(groupname string, groupid string) *Crea
 		WFHomieGroupId:    groupid,
 		Languages:         game.SupportedLanguages,
 		Public:            "true",
-		DrawingTime:       "75",
+		DrawingTime:       "20",
 		Rounds:            "5",
 		MaxPlayers:        "12",
 		CustomWordsChance: "50",
