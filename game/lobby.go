@@ -486,24 +486,24 @@ func advanceLobby(lobby *Lobby) {
 	}
 
 	//The drawer can potentially be null if he's kicked, in that case we proceed with the round if anyone has already
-	drawer := lobby.drawer
-	if drawer != nil && lobby.scoreEarnedByGuessers > 0 {
+	// drawer := lobby.drawer
+	// if drawer != nil && lobby.scoreEarnedByGuessers > 0 {
 
-		//Average score, but minus one player, since the own score is 0 and doesn't count.
-		playerCount := lobby.GetConnectedPlayerCount()
-		//If the drawer isn't connected though, we mustn't subtract from the count.
-		if drawer.Connected {
-			playerCount--
-		}
+	// 	//Average score, but minus one player, since the own score is 0 and doesn't count.
+	// 	playerCount := lobby.GetConnectedPlayerCount()
+	// 	//If the drawer isn't connected though, we mustn't subtract from the count.
+	// 	if drawer.Connected {
+	// 		playerCount--
+	// 	}
 
-		var averageScore int
-		if playerCount > 0 {
-			averageScore = lobby.scoreEarnedByGuessers / playerCount
-		}
+	// 	var averageScore int
+	// 	if playerCount > 0 {
+	// 		averageScore = lobby.scoreEarnedByGuessers / playerCount
+	// 	}
 
-		drawer.LastScore = averageScore
-		drawer.Score += drawer.LastScore
-	}
+	// 	drawer.LastScore = averageScore
+	// 	drawer.Score += drawer.LastScore
+	// }
 
 	//We need this for the next-turn event, in order to allow the client
 	//to know which word was previously supposed to be guessed.
