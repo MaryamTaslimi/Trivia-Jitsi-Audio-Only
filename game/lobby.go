@@ -35,9 +35,9 @@ var (
 		// "english_gb": "English (GB)",
 		// "english":    "English (US)",
 		"geography": "Geography",
-		// "german":    "German",
-		// "french":    "French",
-		// "dutch":     "Dutch",
+		"history":   "History",
+		"science":   "Science",
+		"food":      "Food",
 	}
 )
 

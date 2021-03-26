@@ -16,9 +16,9 @@ var (
 		"english_gb": "en_gb",
 		"english":    "en_us",
 		"geography":  "geo",
-		"german":     "de",
-		"french":     "fr",
-		"dutch":      "nl",
+		"history":    "his",
+		"science":    "sc",
+		"food":       "f",
 	}
 
 	//go:embed words/*
