@@ -4,8 +4,7 @@
 
 <head>
     <title>WFHomie</title>
-    <meta charset="UTF-8" />
-    {{template "font-decl" .}}
+    <meta charset="UTF-8" /> {{template "font-decl" .}}
     <link rel="stylesheet" type="text/css" href="{{.RootPath}}/resources/base.css" />
     <link rel="stylesheet" type="text/css" href="{{.RootPath}}/resources/lobby.css" />
     <link rel="icon" type="image/png" href="{{.RootPath}}/resources/favicon.png" />
@@ -25,8 +24,7 @@
                     <!-- this button is basically behaving like a checkbox, but in order to
                 have a uniform look with the other buttons in the header, we are not using
                 a checkbox anymore. -->
-                    <button onclick="toggleSound()" class="dialog-button header-button" alt="Toggle soundeffects"
-                        title="Toggle soundeffects" style="display: none;">
+                    <button onclick="toggleSound()" class="dialog-button header-button" alt="Toggle soundeffects" title="Toggle soundeffects" style="display: none;">
                         <img id="sound-toggle-label" class="header-button-image" />
                     </button>
 
@@ -86,8 +84,7 @@
                                     <span class="dialog-title">Choose a word</span>
                                     <div class="center-dialog-content">
                                         <div class="word-button-container">
-                                            <button id="word-button-zero" class="dialog-button"
-                                                onclick="chooseWord(0)">Placeholder
+                                            <button id="word-button-zero" class="dialog-button" onclick="chooseWord(0)">Placeholder
                                             </button>
                                             <!-- <button id="word-button-one" class="dialog-button"
                                                 onclick="chooseWord(1)">Placeholder
@@ -107,12 +104,9 @@
                                         <div style="flex-direction: column;">
                                             Change your username:
                                             <div style="display: flex; flex-direction: row;">
-                                                <input class="namechange-field" type="text"
-                                                    id="namechange-field-start-dialog"></input>
-                                                <button class="dialog-button"
-                                                    onclick="changeName(document.getElementById('namechange-field-start-dialog').value)">Change</button>
-                                                <button class="dialog-button"
-                                                    onclick="changeName('')">Randomize</button>
+                                                <input class="namechange-field" type="text" id="namechange-field-start-dialog"></input>
+                                                <button class="dialog-button" onclick="changeName(document.getElementById('namechange-field-start-dialog').value)">Change</button>
+                                                <button class="dialog-button" onclick="changeName('')">Randomize</button>
                                             </div>
                                         </div>
                                         <div class="button-center-wrapper">
@@ -127,15 +121,11 @@
                                     <span class="dialog-title">Game hasn't started</span>
                                     <div class="center-dialog-content">
                                         <div style="display: flex; flex-direction: column;">
-                                            Please wait for your lobby host to start the game.<br /><br />
-                                            Change your username:
+                                            Please wait for your lobby host to start the game.<br /><br /> Change your username:
                                             <div style="display: flex; flex-direction: row;">
-                                                <input class="namechange-field" type="text"
-                                                    id="namechange-field-unstarted-dialog"></input>
-                                                <button class="dialog-button"
-                                                    onclick="changeName(document.getElementById('namechange-field-unstarted-dialog').value)">Change</button>
-                                                <button class="dialog-button"
-                                                    onclick="changeName('')">Randomize</button>
+                                                <input class="namechange-field" type="text" id="namechange-field-unstarted-dialog"></input>
+                                                <button class="dialog-button" onclick="changeName(document.getElementById('namechange-field-unstarted-dialog').value)">Change</button>
+                                                <button class="dialog-button" onclick="changeName('')">Randomize</button>
                                             </div>
                                         </div>
                                     </div>
@@ -148,16 +138,12 @@
                                     <div class="center-dialog-content">
                                         <div style="display: flex; flex-direction: column;">
                                             <div style="display: flex; flex-direction: row;">
-                                                <input class="namechange-field" type="text"
-                                                    id="namechange-field"></input>
-                                                <button class="dialog-button"
-                                                    onclick="changeName(document.getElementById('namechange-field').value)">Change</button>
-                                                <button class="dialog-button"
-                                                    onclick="changeName('')">Randomize</button>
+                                                <input class="namechange-field" type="text" id="namechange-field"></input>
+                                                <button class="dialog-button" onclick="changeName(document.getElementById('namechange-field').value)">Change</button>
+                                                <button class="dialog-button" onclick="changeName('')">Randomize</button>
                                             </div>
                                             <div class="button-center-wrapper">
-                                                <button class="dialog-button"
-                                                    onclick="hideNameChangeDialog()">Close</button>
+                                                <button class="dialog-button" onclick="hideNameChangeDialog()">Close</button>
                                             </div>
                                         </div>
                                     </div>
@@ -171,43 +157,30 @@
                                         <div style="display: flex; flex-direction: column;">
                                             <div class="input-container">
                                                 <b>Maximum Players</b>
-                                                <input id="lobby-settings-max-players" type="number" name="max_players"
-                                                    min="{{.MinMaxPlayers}}" max="{{.MaxMaxPlayers}}"
-                                                    value="{{.MaxPlayers}}" />
+                                                <input id="lobby-settings-max-players" type="number" name="max_players" min="{{.MinMaxPlayers}}" max="{{.MaxMaxPlayers}}" value="{{.MaxPlayers}}" />
                                                 <b>Public Lobby</b>
-                                                <input id="lobby-settings-public" type="checkbox" name="public"
-                                                    value="true" {{if eq .Public true}}checked{{end}} />
+                                                <input id="lobby-settings-public" type="checkbox" name="public" value="true" {{if eq .Public true}}checked{{end}} />
                                                 <b>Custom Words Chance</b>
                                                 <div style="display: flex;">
                                                     0%
-                                                    <input style="flex: 1;" id="lobby-settings-custom-words-chance"
-                                                        type="range" name="custom_words_chance" min="1" max="100"
-                                                        value="{{.CustomWordsChance}}">
-                                                    100%
+                                                    <input style="flex: 1;" id="lobby-settings-custom-words-chance" type="range" name="custom_words_chance" min="1" max="100" value="{{.CustomWordsChance}}"> 100%
                                                 </div>
 
                                                 <details class="advanced-section">
                                                     <summary>Advanced</summary>
                                                     <div class="input-container">
                                                         <b>Players per IP Limit</b>
-                                                        <input id="lobby-settings-clients-per-ip-limit" type="number"
-                                                            name="clients_per_ip_limit" min="{{.MinClientsPerIPLimit}}"
-                                                            max="{{.MaxClientsPerIPLimit}}"
-                                                            value="{{.ClientsPerIPLimit}}" />
+                                                        <input id="lobby-settings-clients-per-ip-limit" type="number" name="clients_per_ip_limit" min="{{.MinClientsPerIPLimit}}" max="{{.MaxClientsPerIPLimit}}" value="{{.ClientsPerIPLimit}}" />
                                                         <b>Enable Votekick</b>
-                                                        <input id="lobby-settings-enable-votekick" type="checkbox"
-                                                            name="enable_votekick" value="true" {{if eq .EnableVotekick
-                                                            true}}checked{{end}} />
+                                                        <input id="lobby-settings-enable-votekick" type="checkbox" name="enable_votekick" value="true" {{if eq .EnableVotekick true}}checked{{end}} />
                                                     </div>
                                                 </details>
-                                                <button class="dialog-button" onclick="saveLobbySettings()"
-                                                    style="grid-column-start: 1; grid-column-end: 3;">
+                                                <button class="dialog-button" onclick="saveLobbySettings()" style="grid-column-start: 1; grid-column-end: 3;">
                                                     Save settings
                                                 </button>
                                             </div>
                                             <div class="button-center-wrapper">
-                                                <button class="dialog-button"
-                                                    onclick="hideLobbySettingsDialog()">Close</button>
+                                                <button class="dialog-button" onclick="hideLobbySettingsDialog()">Close</button>
                                             </div>
                                         </div>
                                     </div>
@@ -218,8 +191,7 @@
                                 <div id="game-over-dialog" class="center-dialog">
                                     <span id="game-over-dialog-title" class="dialog-title">Game over!</span>
                                     <div id="game-over-scoreboard"></div>
-                                    <button id="restart-button" class="dialog-button"
-                                        onclick="startGame()">Restart</button>
+                                    <button id="restart-button" class="dialog-button" onclick="startGame()">Restart</button>
                                 </div>
                             </div>
 
@@ -227,8 +199,7 @@
                                 <div id="kick-dialog" class="center-dialog">
                                     <span class="dialog-title">Vote to kick a player</span>
                                     <div id="kick-dialog-players"></div>
-                                    <button onclick="hideKickDialog()"
-                                        class="dialog-button dialog-close-button">Close</button>
+                                    <button onclick="hideKickDialog()" class="dialog-button dialog-close-button">Close</button>
                                 </div>
                             </div>
 
@@ -236,66 +207,41 @@
                                 <div id="reconnect-dialog" class="center-dialog">
                                     <span id="game-over-dialog-title" class="dialog-title">Connection lost!</span>
                                     <p>Attempting to reconnect ...</p>
-                                    <p>Make sure your internet connection works.<br />If the problem persists, contact
-                                        the
-                                        webmaster.</p>
+                                    <p>Make sure your internet connection works.<br />If the problem persists, contact the webmaster.
+                                    </p>
                                 </div>
                             </div>
                         </div>
                         <div id="toolbox" style="top: 420px;display:none;">
-                            <input class="toolbox-group" type="color" id="color-picker" onchange="setColor()"
-                                value="#000000" alt="Current color (Click to change)"
-                                title="Current color (Click to change)">
+                            <input class="toolbox-group" type="color" id="color-picker" onchange="setColor()" value="#000000" alt="Current color (Click to change)" title="Current color (Click to change)">
                             <div class="color-button-container toolbox-group">
                                 <!-- These buttons use !important for their color in order
                         to prevent hover and active colors to appear. -->
                                 <div class="color-button-row">
-                                    <button class="color-button" style="background-color: #ffffff !Important"
-                                        onmousedown="setColor('#ffffff')" onclick="setColor('#ffffff')"></button>
-                                    <button class="color-button" style="background-color: #c1c1c1 !Important"
-                                        onmousedown="setColor('#c1c1c1')" onclick="setColor('#c1c1c1')"></button>
-                                    <button class="color-button" style="background-color: #ef130b !Important"
-                                        onmousedown="setColor('#ef130b')" onclick="setColor('#ef130b')"></button>
-                                    <button class="color-button" style="background-color: #ff7100 !Important"
-                                        onmousedown="setColor('#ff7100')" onclick="setColor('#ff7100')"></button>
-                                    <button class="color-button" style="background-color: #ffe400 !Important"
-                                        onmousedown="setColor('#ffe400')" onclick="setColor('#ffe400')"></button>
-                                    <button class="color-button" style="background-color: #00cc00 !Important"
-                                        onmousedown="setColor('#00cc00')" onclick="setColor('#00cc00')"></button>
-                                    <button class="color-button" style="background-color: #00b2ff !Important"
-                                        onmousedown="setColor('#00b2ff')" onclick="setColor('#00b2ff')"></button>
-                                    <button class="color-button" style="background-color: #231fd3 !Important"
-                                        onmousedown="setColor('#231fd3')" onclick="setColor('#231fd3')"></button>
-                                    <button class="color-button" style="background-color: #a300ba !Important"
-                                        onmousedown="setColor('#a300ba')" onclick="setColor('#a300ba')"></button>
-                                    <button class="color-button" style="background-color: #d37caa !Important"
-                                        onmousedown="setColor('#d37caa')" onclick="setColor('#d37caa')"></button>
-                                    <button class="color-button" style="background-color: #a0522d !Important"
-                                        onmousedown="setColor('#a0522d')" onclick="setColor('#a0522d')"></button>
+                                    <button class="color-button" style="background-color: #ffffff !Important" onmousedown="setColor('#ffffff')" onclick="setColor('#ffffff')"></button>
+                                    <button class="color-button" style="background-color: #c1c1c1 !Important" onmousedown="setColor('#c1c1c1')" onclick="setColor('#c1c1c1')"></button>
+                                    <button class="color-button" style="background-color: #ef130b !Important" onmousedown="setColor('#ef130b')" onclick="setColor('#ef130b')"></button>
+                                    <button class="color-button" style="background-color: #ff7100 !Important" onmousedown="setColor('#ff7100')" onclick="setColor('#ff7100')"></button>
+                                    <button class="color-button" style="background-color: #ffe400 !Important" onmousedown="setColor('#ffe400')" onclick="setColor('#ffe400')"></button>
+                                    <button class="color-button" style="background-color: #00cc00 !Important" onmousedown="setColor('#00cc00')" onclick="setColor('#00cc00')"></button>
+                                    <button class="color-button" style="background-color: #00b2ff !Important" onmousedown="setColor('#00b2ff')" onclick="setColor('#00b2ff')"></button>
+                                    <button class="color-button" style="background-color: #231fd3 !Important" onmousedown="setColor('#231fd3')" onclick="setColor('#231fd3')"></button>
+                                    <button class="color-button" style="background-color: #a300ba !Important" onmousedown="setColor('#a300ba')" onclick="setColor('#a300ba')"></button>
+                                    <button class="color-button" style="background-color: #d37caa !Important" onmousedown="setColor('#d37caa')" onclick="setColor('#d37caa')"></button>
+                                    <button class="color-button" style="background-color: #a0522d !Important" onmousedown="setColor('#a0522d')" onclick="setColor('#a0522d')"></button>
                                 </div>
                                 <div class="color-button-row">
-                                    <button class="color-button" style="background-color: #000000 !Important"
-                                        onmousedown="setColor('#000000')" onclick="setColor('#000000')"></button>
-                                    <button class="color-button" style="background-color: #4c4c4c !Important"
-                                        onmousedown="setColor('#4c4c4c')" onclick="setColor('#4c4c4c')"></button>
-                                    <button class="color-button" style="background-color: #740b07 !Important"
-                                        onmousedown="setColor('#740b07')" onclick="setColor('#740b07')"></button>
-                                    <button class="color-button" style="background-color: #c23800 !Important"
-                                        onmousedown="setColor('#c23800')" onclick="setColor('#c23800')"></button>
-                                    <button class="color-button" style="background-color: #e8a200 !Important"
-                                        onmousedown="setColor('#e8a200')" onclick="setColor('#e8a200')"></button>
-                                    <button class="color-button" style="background-color: #005510 !Important"
-                                        onmousedown="setColor('#005510')" onclick="setColor('#005510')"></button>
-                                    <button class="color-button" style="background-color: #00569e !Important"
-                                        onmousedown="setColor('#00569e')" onclick="setColor('#00569e')"></button>
-                                    <button class="color-button" style="background-color: #0e0865 !Important"
-                                        onmousedown="setColor('#0e0865')" onclick="setColor('#0e0865')"></button>
-                                    <button class="color-button" style="background-color: #550069 !Important"
-                                        onmousedown="setColor('#550069')" onclick="setColor('#550069')"></button>
-                                    <button class="color-button" style="background-color: #a75574 !Important"
-                                        onmousedown="setColor('#a75574')" onclick="setColor('#a75574')"></button>
-                                    <button class="color-button" style="background-color: #63300d !Important"
-                                        onmousedown="setColor('#63300d')" onclick="setColor('#63300d')"></button>
+                                    <button class="color-button" style="background-color: #000000 !Important" onmousedown="setColor('#000000')" onclick="setColor('#000000')"></button>
+                                    <button class="color-button" style="background-color: #4c4c4c !Important" onmousedown="setColor('#4c4c4c')" onclick="setColor('#4c4c4c')"></button>
+                                    <button class="color-button" style="background-color: #740b07 !Important" onmousedown="setColor('#740b07')" onclick="setColor('#740b07')"></button>
+                                    <button class="color-button" style="background-color: #c23800 !Important" onmousedown="setColor('#c23800')" onclick="setColor('#c23800')"></button>
+                                    <button class="color-button" style="background-color: #e8a200 !Important" onmousedown="setColor('#e8a200')" onclick="setColor('#e8a200')"></button>
+                                    <button class="color-button" style="background-color: #005510 !Important" onmousedown="setColor('#005510')" onclick="setColor('#005510')"></button>
+                                    <button class="color-button" style="background-color: #00569e !Important" onmousedown="setColor('#00569e')" onclick="setColor('#00569e')"></button>
+                                    <button class="color-button" style="background-color: #0e0865 !Important" onmousedown="setColor('#0e0865')" onclick="setColor('#0e0865')"></button>
+                                    <button class="color-button" style="background-color: #550069 !Important" onmousedown="setColor('#550069')" onclick="setColor('#550069')"></button>
+                                    <button class="color-button" style="background-color: #a75574 !Important" onmousedown="setColor('#a75574')" onclick="setColor('#a75574')"></button>
+                                    <button class="color-button" style="background-color: #63300d !Important" onmousedown="setColor('#63300d')" onclick="setColor('#63300d')"></button>
                                 </div>
                             </div>
                             <!--The following buttons als override onmousedown and onmouseup to make
@@ -333,8 +279,7 @@
                                 </label>
                             </div>
                             <!--We won't make this button easier to click, as there's no going back. -->
-                            <button class="canvas-button toolbox-group" style="font-size: 1.5rem;"
-                                onclick="clearCanvasAndSendEvent()" alt="Clear the canvas" title="Clear the canvas">🗑
+                            <button class="canvas-button toolbox-group" style="font-size: 1.5rem;" onclick="clearCanvasAndSendEvent()" alt="Clear the canvas" title="Clear the canvas">🗑
                             </button>
                             <div class="pencil-sizes-container toolbox-group">
                                 <label for="size8">
@@ -384,8 +329,7 @@
                     <div id="message-container"></div>
                 </div>
                 <form class="message-input-form" onsubmit="return sendMessage()">
-                    <input id="message-input" type="text" autocomplete="off" style="color:white;"
-                        placeholder="Type your guesses and messages" />
+                    <input id="message-input" type="text" autocomplete="off" style="color:white;" placeholder="Type your guesses and messages" />
                 </form>
             </div>
             <div id="jitsicontainer">
@@ -403,10 +347,10 @@
     <script type="text/javascript" src="{{.RootPath}}/resources/floodfill.js"></script>
     <script src="https://meet.jit.si/external_api.js"></script>
     <script type="text/javascript">
-
         const reconnectDialog = document.getElementById("reconnect-dialog");
         let socketIsConnecting = false;
         let socket;
+
         function connectToWebsocket() {
             if (socketIsConnecting === true) {
                 return;
@@ -444,7 +388,9 @@
         //players could be killed and even cause the lobby being closed. Since
         //that's very frustrating, we want to avoid that.
         window.setInterval(() => {
-            socket.send(JSON.stringify({ type: "keep-alive" }));
+            socket.send(JSON.stringify({
+                type: "keep-alive"
+            }));
         }, 5000);
 
         //Makes sure that the server notices that the player disconnects.
@@ -551,15 +497,15 @@
 
         function saveLobbySettings() {
             fetch("{{.RootPath}}/v1/lobby?" + new URLSearchParams({
-                lobby_id: '{{.LobbyID}}',
-                public: document.getElementById("lobby-settings-public").value,
-                enable_votekick: document.getElementById("lobby-settings-enable-votekick").value,
-                max_players: document.getElementById("lobby-settings-max-players").value,
-                clients_per_ip_limit: document.getElementById("lobby-settings-clients-per-ip-limit").value,
-                custom_words_chance: document.getElementById("lobby-settings-custom-words-chance").value,
-            }), {
-                method: 'PATCH',
-            })
+                    lobby_id: '{{.LobbyID}}',
+                    public: document.getElementById("lobby-settings-public").value,
+                    enable_votekick: document.getElementById("lobby-settings-enable-votekick").value,
+                    max_players: document.getElementById("lobby-settings-max-players").value,
+                    clients_per_ip_limit: document.getElementById("lobby-settings-clients-per-ip-limit").value,
+                    custom_words_chance: document.getElementById("lobby-settings-custom-words-chance").value,
+                }), {
+                    method: 'PATCH',
+                })
                 .then(result => {
                     if (result.status === 200) {
                         hideLobbySettingsDialog();
@@ -589,8 +535,14 @@
         //The drawing board has a base size. This base size results in a certain ratio
         //that the actual canvas has to be resized accordingly too. This is needed
         //since not every client has the same screensize.
-        let baseWidth = {{.DrawingBoardBaseWidth }};
-        let baseHeight = {{.DrawingBoardBaseHeight }};
+        let baseWidth = {
+            {.DrawingBoardBaseWidth
+            }
+        };
+        let baseHeight = {
+            {.DrawingBoardBaseHeight
+            }
+        };
         let boardRatio = baseWidth / baseHeight;
 
         // Moving this here to extract the context after resizing
@@ -712,7 +664,10 @@
             if (localTool === rubber) {
                 setCircleCursor("#FFFFFF", localLineWidth);
             } else if (localTool === fillBucket) {
-                const { innerColor, outerColor } = getCursorColors(localColor);
+                const {
+                    innerColor,
+                    outerColor
+                } = getCursorColors(localColor);
                 //HACK HACK HACK IT GETS CRAZY
                 //So, the goal here was to use fill.svg as our cursor, but still
                 //have our default cursor, so that the user knows where exactly
@@ -765,7 +720,10 @@
         }
 
         function setCircleCursor(color, size) {
-            const { innerColor, outerColor } = getCursorColors(color);
+            const {
+                innerColor,
+                outerColor
+            } = getCursorColors(color);
 
             let circleSize = size * scaleUpFactor();
             drawingBoard.style.cursor = "url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"32\" height=\"32\">" + generateSVGCircle(circleSize, innerColor, outerColor) + "</svg>') " + (circleSize / 2) + " " + (circleSize / 2) + ", auto";
@@ -843,15 +801,18 @@
         }
         //This automatically scrolls down the chat on arrivals of new messages
         new MutationObserver(() => {
-            // messageContainer.scrollTop = messageContainer.scrollHeight
+                // messageContainer.scrollTop = messageContainer.scrollHeight
 
-            // messageContainer.scrollIntoView({block: "nearest"})
+                // messageContainer.scrollIntoView({block: "nearest"})
 
-            messageContainer.parentNode.scrollTop = messageContainer.offsetTop;
+                messageContainer.maxScrollTop = messageContainer.scrollHeight - messageContainer.offsetHeight;
+                if (messageContainer.maxScrollTop - messageContainer.parentNode.scrollTop <= messageContainer.offsetHeight) {
+                    messageContainer.parentNode.scrollTop = messageContainer.scrollHeight;
+                }
 
-            // ensure_visible("message-container")
+                // ensure_visible("message-container")
 
-        })
+            })
             .observe(messageContainer, {
                 attributes: false,
                 childList: true,
@@ -907,17 +868,17 @@
                             if (isSelf) {
                                 newEntry += ' gameover-scoreboard-entry-self';
                             }
-                            newEntry += '">'
-                                + '<div class="gameover-scoreboard-rank">'
-                                + player.rank
-                                + '</div>'
-                                + '<div class="gameover-scoreboard-name">'
-                                + player.name
-                                + '</div>'
-                                + '<span class="gameover-scoreboard-score">'
-                                + player.score
-                                + '</span>'
-                                + '</div>';
+                            newEntry += '">' +
+                                '<div class="gameover-scoreboard-rank">' +
+                                player.rank +
+                                '</div>' +
+                                '<div class="gameover-scoreboard-name">' +
+                                player.name +
+                                '</div>' +
+                                '<span class="gameover-scoreboard-score">' +
+                                player.score +
+                                '</span>' +
+                                '</div>';
 
                             gameOverScoreboard.innerHTML += newEntry;
                         }
@@ -1030,12 +991,12 @@
                 applyMessage("system-message", "Since the kicked player has been drawing, none of you will get any points this round.");
             } else if (parsed.type === "lobby-settings-changed") {
                 votekickEnabled = parsed.data.enableVotekick;
-                applyMessage("system-message", "Lobby settings changed:<br/><br/>"
-                    + "Public lobby: " + parsed.data.public + "<br/>"
-                    + "Enable votekicking: " + parsed.data.enableVotekick + "<br/>"
-                    + "Max players: " + parsed.data.maxPlayers + "<br/>"
-                    + "Custom words chance: " + parsed.data.customWordsChance + "%<br/>"
-                    + "Clients per IP limit: " + parsed.data.clientsPerIpLimit);
+                applyMessage("system-message", "Lobby settings changed:<br/><br/>" +
+                    "Public lobby: " + parsed.data.public + "<br/>" +
+                    "Enable votekicking: " + parsed.data.enableVotekick + "<br/>" +
+                    "Max players: " + parsed.data.maxPlayers + "<br/>" +
+                    "Custom words chance: " + parsed.data.customWordsChance + "%<br/>" +
+                    "Clients per IP limit: " + parsed.data.clientsPerIpLimit);
             }
 
         };
@@ -1085,7 +1046,7 @@
         //     }
         // }
 
-        window.setInterval(function () {
+        window.setInterval(function() {
             if (roundEndTime >= 0) {
                 timeLeft.innerText = Math.floor(roundEndTime / 1000);
                 roundEndTime -= 500;
@@ -1109,8 +1070,7 @@
                             <span class="chat-name">` + author + `</span>
                             <span class="message-content">` + message + `</span>
                         </div>`;
-            }
-            else
+            } else
                 messageContainer.innerHTML += `<div class="message ` + styleClass + `">                            
                             <span class="message-content">` + message + `</span>
                         </div>`;
@@ -1124,7 +1084,7 @@
             players.sort((a, b) => {
                 return a.rank - b.rank;
             });
-            players.forEach(function (player) {
+            players.forEach(function(player) {
                 //We don't wanna show the disconnected players.
                 if (!player.connected) {
                     return;
@@ -1163,6 +1123,7 @@
                 playerContainer.innerHTML += newPlayerElement;
             });
         }
+
         function applyRounds(round, maxRound) {
             roundsSpan.innerText = 'Round ' + round + ' of ' + maxRound;
         }
@@ -1170,7 +1131,7 @@
         function applyWordHints(wordHints) {
             wordContainer.innerHTML = "";
             //If no hint has been revealed
-            wordHints.forEach(function (hint) {
+            wordHints.forEach(function(hint) {
                 if (hint.character === 0) {
                     wordContainer.innerHTML += '<span class="guess-letter guess-letter-underline">&nbsp;</span>';
                 } else {
@@ -1186,7 +1147,7 @@
 
         function applyDrawData(drawElements) {
             clear(context);
-            drawElements.forEach(function (drawElement) {
+            drawElements.forEach(function(drawElement) {
                 let drawData = drawElement.data;
                 if (drawElement.type === "fill") {
                     fill(context, drawData.x * scaleDownFactor(), drawData.y * scaleDownFactor(), drawData.color);
@@ -1205,7 +1166,7 @@
         // Touch input
         let touchID = 0;
 
-        drawingBoard.ontouchstart = function (e) {
+        drawingBoard.ontouchstart = function(e) {
             if (!isDrawing && allowDrawing) {
                 touchID = e.touches[0].identifier;
 
@@ -1220,7 +1181,7 @@
             }
         };
 
-        drawingBoard.ontouchmove = function (e) {
+        drawingBoard.ontouchmove = function(e) {
             //FIXME Explanation? Does this prevent moving the page?
             e.preventDefault();
 
@@ -1262,7 +1223,7 @@
         drawingBoard.ontouchcancel = onTouchEnd;
 
         // Mouse input
-        drawingBoard.onmousedown = function (e) {
+        drawingBoard.onmousedown = function(e) {
             if (allowDrawing && e.button === 0 && localTool !== 2) {
                 let clientRect = drawingBoard.getBoundingClientRect();
                 x = e.clientX - clientRect.left;
@@ -1275,7 +1236,7 @@
         };
 
         // This is executed even if the mouse is not above the browser anymore.
-        window.onmouseup = function (e) {
+        window.onmouseup = function(e) {
             if (isDrawing === true) {
                 isDrawing = false;
             }
@@ -1299,13 +1260,13 @@
         drawingBoard.onmouseleave = mouseUpdate;
 
         // necessary for mousemove to not use the previous exit coordinates.
-        window.onmousemove = function (e) {
+        window.onmousemove = function(e) {
             let clientRect = drawingBoard.getBoundingClientRect();
             x = Math.min(clientRect.width - 1, Math.max(0, e.clientX - clientRect.left));
             y = Math.min(clientRect.height - 1, Math.max(0, e.clientY - clientRect.top));
         };
 
-        drawingBoard.onclick = function (e) {
+        drawingBoard.onclick = function(e) {
             if (allowDrawing && e.button === 0) {
                 if (localTool === fillBucket) {
                     fillAndSendEvent(context, e.offsetX, e.offsetY, localColor)
@@ -1488,15 +1449,20 @@
                 height: 150,
                 allow: "microphone; camera",
                 parentNode: document.getElementById("jitsi"),
-                configOverwrite: { prejoinPageEnabled: false },
-                interfaceConfigOverwrite: { TILE_VIEW_MAX_COLUMNS: 2, SHOW_CHROME_EXTENSION_BANNER: false }
+                configOverwrite: {
+                    prejoinPageEnabled: false
+                },
+                interfaceConfigOverwrite: {
+                    TILE_VIEW_MAX_COLUMNS: 2,
+                    SHOW_CHROME_EXTENSION_BANNER: false
+                }
             }
             var api = new JitsiMeetExternalAPI(domain, options);
             api.executeCommand('toggleTileView');
             api.executeCommand('displayName', localDisplayName);
 
             api.addEventListeners({
-                displayNameChange: function (params) {
+                displayNameChange: function(params) {
                     // if is Videochat, set the Join Page displayName
                     if (videoConferenceJoined) {
                         return this.executeCommand('displayName', localDisplayName);
@@ -1505,13 +1471,15 @@
                     // if is Join Page, update global variable (localDisplayName) with input value
                     localDisplayName = params.displayname;
                 },
-                videoConferenceJoined: function () {
+                videoConferenceJoined: function() {
                     // flag the conference starts
                     videoConferenceJoined = true;
                 }
             });
             api.addEventListener(`videoConferenceJoined`, () => {
-                const listener = ({ enabled }) => {
+                const listener = ({
+                    enabled
+                }) => {
                     api.removeEventListener(`tileViewChanged`, listener);
 
                     if (!enabled) {
@@ -1524,7 +1492,6 @@
             });
         }
         jitsi();
-
     </script>
 </body>
 
