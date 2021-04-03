@@ -4,8 +4,7 @@
 
 <head>
     <title>WFHomie</title>
-    <meta charset="UTF-8" />
-    {{template "font-decl" .}}
+    <meta charset="UTF-8" /> {{template "font-decl" .}}
     <link rel="stylesheet" type="text/css" href="{{.RootPath}}/resources/base.css" />
     <link rel="stylesheet" type="text/css" href="{{.RootPath}}/resources/lobby_create.css" />
     <link rel="icon" type="image/png" href="{{.RootPath}}/resources/favicon.png" />
@@ -41,14 +40,12 @@
                         <li>{{.}}</li>
                         {{end}}
                     </ul>
-                    <br />
-                    Fix the input and try again.
+                    <br /> Fix the input and try again.
                 </div>
 
                 {{end}}
                 <!-- the form to call WFHomie Api and validate the entered Token -->
-                <form style="display: flex; flex-direction: column;" class="input-container"
-                    action="{{.RootPath}}/ssrCheckCode" method="POST" enctype="multipart/form-data">
+                <form style="display: flex; flex-direction: column;" class="input-container" action="{{.RootPath}}/ssrCheckCode" method="POST" enctype="multipart/form-data">
                     <b id="tokenlabel" style="font-family:SourceSansPro-bold;color:#f6d65c;font-size:3rem;
                          margin:auto;">ENTER THE CODE</b>
                     <div style="background-color:#39b0a4; border-radius: 25px; margin:auto;">
@@ -78,38 +75,27 @@
                         {{end}}
                     </select>
                     <b style="display:none;">Drawing Time</b>
-                    <input id="drawing" class="input-item" type="number" name="drawing_time" min="{{.MinDrawingTime}}"
-                        max="{{.MaxDrawingTime}}" value="{{.DrawingTime}}" style="display:none;" />
+                    <input id="drawing" class="input-item" type="number" name="drawing_time" min="{{.MinDrawingTime}}" max="{{.MaxDrawingTime}}" value="{{.DrawingTime}}" style="display:none;" />
                     <b style="display:none">Rounds</b>
-                    <input class="input-item" type="number" name="rounds" min="{{.MinRounds}}" max="{{.MaxRounds}}"
-                        value="{{.Rounds}}" style="display:none" />
+                    <input class="input-item" type="number" name="rounds" min="{{.MinRounds}}" max="{{.MaxRounds}}" value="{{.Rounds}}" style="display:none" />
                     <b style="display:none">Maximum Players</b>
-                    <input class="input-item" type="number" name="max_players" min="{{.MinMaxPlayers}}"
-                        max="{{.MaxMaxPlayers}}" value="{{.MaxPlayers}}" style="display:none" />
+                    <input class="input-item" type="number" name="max_players" min="{{.MinMaxPlayers}}" max="{{.MaxMaxPlayers}}" value="{{.MaxPlayers}}" style="display:none" />
                     <b style="display:none">Public Lobby</b>
-                    <input class="input-item" type="checkbox" name="public" value="true" {{if eq .Public "true"
-                        }}checked{{end}} style="display:none" />
+                    <input class="input-item" type="checkbox" name="public" value="true" {{if eq .Public "true" }}checked{{end}} style="display:none" />
                     <b style="display:none">Custom Words</b>
-                    <textarea class="input-item" name="custom_words"
-                        placeholder="Enter your additional words, separating them by commas"
-                        style="display:none">{{.CustomWords}}</textarea>
+                    <textarea class="input-item" name="custom_words" placeholder="Enter your additional words, separating them by commas" style="display:none">{{.CustomWords}}</textarea>
                     <b style="display:none">Custom Words Chance</b>
                     <div style="display: none;">
                         0%
-                        <input style="flex: 1;" type="range" name="custom_words_chance" min="1" max="100"
-                            value="{{.CustomWordsChance}}">
-                        100%
+                        <input style="flex: 1;" type="range" name="custom_words_chance" min="1" max="100" value="{{.CustomWordsChance}}"> 100%
                     </div>
                     <details class="advanced-section" style="display:none">
                         <summary>Advanced</summary>
                         <div class="input-container">
                             <b>Players per IP Limit</b>
-                            <input class="input-item" type="number" name="clients_per_ip_limit"
-                                min="{{.MinClientsPerIPLimit}}" max="{{.MaxClientsPerIPLimit}}"
-                                value="{{.ClientsPerIPLimit}}" />
+                            <input class="input-item" type="number" name="clients_per_ip_limit" min="{{.MinClientsPerIPLimit}}" max="{{.MaxClientsPerIPLimit}}" value="{{.ClientsPerIPLimit}}" />
                             <b>Enable Votekick</b>
-                            <input class="input-item" type="checkbox" name="enable_votekick" value="true" {{if eq
-                                .EnableVotekick "true" }}checked{{end}} />
+                            <input class="input-item" type="checkbox" name="enable_votekick" value="true" {{if eq .EnableVotekick "true" }}checked{{end}} />
                         </div>
                     </details>
                     <!-- <button id="createbtn" type="submit" form="lobby-create" style="margin-top:10px;
@@ -143,7 +129,6 @@
     </div>
 
     <script type="text/javascript">
-
         // let lobbyTableLoaded = false;
         // let lobbyTableBody = document.getElementById("lobby-table-body");
         let selectedLobby;
@@ -179,7 +164,7 @@
                     document.getElementById('tokeninput').style.display = "none";
                     document.getElementById("tokenlabel").style.display = "none";
                     loadLobbyTable();
-                }).catch(function () {
+                }).catch(function() {
                     console.log("nokey");
                     document.getElementById("tokenlabel").innerHTML = "INVALID CODE!"
                 });
@@ -278,21 +263,17 @@
         // }
 
         // function openTab(tabId) {
-
     </script>
 </body>
 
 </html>
-{{end}}
-
-{{define "select-category-page"}}
+{{end}} {{define "select-category-page"}}
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <title>WFHomie</title>
-    <meta charset="UTF-8" />
-    {{template "font-decl" .}}
+    <meta charset="UTF-8" /> {{template "font-decl" .}}
     <link rel="stylesheet" type="text/css" href="{{.RootPath}}/resources/base.css" />
     <link rel="stylesheet" type="text/css" href="{{.RootPath}}/resources/lobby_create.css" />
     <link rel="icon" type="image/png" href="{{.RootPath}}/resources/favicon.png" />
@@ -301,80 +282,56 @@
 <body>
     <div class="content-wrapper">
         <noscript><span class="noscript">This website requires JavaScript to run properly.</span></noscript>
-        <div id=category-wrapper>
-            <button class="category-box" id="button1" onclick="btnclick(this.textContent);"></button>
-            <button class="category-box" id="button2" onclick="btnclick(this.textContent);"></button>
-            <button class="category-box" id="button3" onclick="btnclick(this.textContent);"></button>
-            <button class="category-box" id="button4" onclick="btnclick(this.textContent);"></button>
-            <button class="category-box" id="button5" onclick="btnclick(this.textContent);"></button>
-            <button class="category-box" id="button6" onclick="btnclick(this.textContent);"></button>
-        </div>
+        <div id=category-wrapper></div>
         <div id="select-category">
             <div class="center-container">
                 <form id="selectcategory" class="input-container" action="{{.RootPath}}/ssrCreateLobby" method="POST">
 
                     <b style="display:none;">WFHomie group id</b>
-                    <input style="display:none;" class="input-item" value="{{.WFHomieGroupId}}" name="WFHomie_group_id"
-                        id="WFHomie-groupid">
+                    <input style="display:none;" class="input-item" value="{{.WFHomieGroupId}}" name="WFHomie_group_id" id="WFHomie-groupid">
                     </input>
                     <b style="display:none;">WFHomie group name</b>
-                    <input style="display:none;" class="input-item" value="{{.WFHomieGroupName}}"
-                        name="WFHomie_group_name" id="WFHomie-groupname">
+                    <input style="display:none;" class="input-item" value="{{.WFHomieGroupName}}" name="WFHomie_group_name" id="WFHomie-groupname">
                     </input>
                     <b style="display:none;">Lobby-Language</b>
-                    <select style="display:none;" class="input-item" id="categories" name="language"
-                        placeholder="Choose your language">
+                    <select style="display:none;" class="input-item" id="categories" name="language" placeholder="Choose your language">
                         {{$language := .Language}}
                         {{range $k, $v := .Languages}}
                         <option value="{{$k}}" {{if eq $k $language}}selected="selected" {{end}}>{{$v}}</option>
                         {{end}}
                     </select>
                     <b style="display:none;">Drawing Time</b>
-                    <input style="display:none;" id="drawing" class="input-item" type="number" name="drawing_time"
-                        min="{{.MinDrawingTime}}" max="{{.MaxDrawingTime}}" value="{{.DrawingTime}}" />
+                    <input style="display:none;" id="drawing" class="input-item" type="number" name="drawing_time" min="{{.MinDrawingTime}}" max="{{.MaxDrawingTime}}" value="{{.DrawingTime}}" />
                     <b style="display:none;">Rounds</b>
-                    <input style="display:none;" class="input-item" type="number" name="rounds" min="{{.MinRounds}}"
-                        max="{{.MaxRounds}}" value="{{.Rounds}}" />
+                    <input style="display:none;" class="input-item" type="number" name="rounds" min="{{.MinRounds}}" max="{{.MaxRounds}}" value="{{.Rounds}}" />
                     <b style="display:none;">Maximum Players</b>
-                    <input style="display:none;" class="input-item" type="number" name="max_players"
-                        min="{{.MinMaxPlayers}}" max="{{.MaxMaxPlayers}}" value="{{.MaxPlayers}}" />
+                    <input style="display:none;" class="input-item" type="number" name="max_players" min="{{.MinMaxPlayers}}" max="{{.MaxMaxPlayers}}" value="{{.MaxPlayers}}" />
                     <b style="display:none;">Public Lobby</b>
-                    <input style="display:none;" class="input-item" type="checkbox" name="public" value="true" {{if eq
-                        .Public "true" }}checked{{end}} />
+                    <input style="display:none;" class="input-item" type="checkbox" name="public" value="true" {{if eq .Public "true" }}checked{{end}} />
                     <b style="display:none;">Custom Words</b>
-                    <textarea style="display:none;" class="input-item" name="custom_words"
-                        placeholder="Enter your additional words, separating them by commas">{{.CustomWords}}</textarea>
+                    <textarea style="display:none;" class="input-item" name="custom_words" placeholder="Enter your additional words, separating them by commas">{{.CustomWords}}</textarea>
                     <b style="display:none;">Custom Words Chance</b>
                     <div style="display:none;">
                         0%
-                        <input style="flex: 1;" type="range" name="custom_words_chance" min="1" max="100"
-                            value="{{.CustomWordsChance}}">
-                        100%
+                        <input style="flex: 1;" type="range" name="custom_words_chance" min="1" max="100" value="{{.CustomWordsChance}}"> 100%
                     </div>
                     <details style="display:none;" class="advanced-section">
                         <summary>Advanced</summary>
                         <div class="input-container">
                             <b>Players per IP Limit</b>
-                            <input class="input-item" type="number" name="clients_per_ip_limit"
-                                min="{{.MinClientsPerIPLimit}}" max="{{.MaxClientsPerIPLimit}}"
-                                value="{{.ClientsPerIPLimit}}" />
+                            <input class="input-item" type="number" name="clients_per_ip_limit" min="{{.MinClientsPerIPLimit}}" max="{{.MaxClientsPerIPLimit}}" value="{{.ClientsPerIPLimit}}" />
                             <b>Enable Votekick</b>
-                            <input class="input-item" type="checkbox" name="enable_votekick" value="true" {{if eq
-                                .EnableVotekick "true" }}checked{{end}} />
+                            <input class="input-item" type="checkbox" name="enable_votekick" value="true" {{if eq .EnableVotekick "true" }}checked{{end}} />
                         </div>
                     </details>
-                    <button id="createbtn" type="submit" form="selectcategory" style="margin-top:10px;
-                        grid-column-start: 1;
-                        grid-column-end: 3;
-                        font-family: 'SourceSansPro-Bold';
+                    <button id="createbtn" type="submit" form="selectcategory" style="font-family: 'SourceSansPro-Bold';
                         border-radius: 25px;
                         border: none;
                         height: 60px;
                         width: 170px;
                         background-color: #39b0a4;
                         color: #f6d65c;
-                        font-size: larger;
-                        display:none;">
+                        font-size: larger;">
                         Create session
                     </button>
                 </form>
@@ -384,23 +341,26 @@
     </div>
 </body>
 <script type="text/javascript">
-    var counter = 1;
-    var button = document.getElementById("button" + counter);
-    while (button) {
+    // var counter = 1;
+    // var button = document.getElementById("button" + counter);
+    // while (button) {
+    document.getElementById("createbtn").style.visibility = "hidden"
+    var options = Array.form(document.querySelector("#categories").options);
+    options.forEach(function(option) {
+        var button = document.createElement("button");
+        document.getElementById("category-wrapper").appendChild(button);
+        button.classList.add("category-box");
+        button.textContent = option.value;
+        button.addEventListener("click", function() {
+            btnclick(this.textContent);
+        })
+    })
 
-        button.textContent = Array.from(document.querySelector("#categories").options)[counter - 1].value;
-
-        button = document.getElementById("button" + (++counter));
-
-    }
     function btnclick(context) {
         if (context != "") {
             document.getElementById("categories").value = context;
-            document.getElementById("createbtn").style.display = "initial";
-        }
+            document.getElementById)("createbtn").style.visibility = "visible";
     }
-    // document.getElementById("categories").value="hi";
-    // var testtt = document.getElementById("categories").value;
-    // console.log(testtt);
+    }
 </script>
 {{end}}
