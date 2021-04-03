@@ -11,6 +11,7 @@ require (
 	github.com/kennygrant/sanitize v1.2.4
 	golang.org/x/net v0.0.0-20210220033124-5f55cee0dc0d // indirect
 	golang.org/x/text v0.3.5
+	golang.org/x/tools/gopls v0.6.9 // indirect
 )
 
 // +heroku goVersion go1.16

@@ -535,9 +535,9 @@
         //The drawing board has a base size. This base size results in a certain ratio
         //that the actual canvas has to be resized accordingly too. This is needed
         //since not every client has the same screensize.
-        // let baseWidth = {{.DrawingBoardBaseWidth}};
-        // let baseHeight = {{.DrawingBoardBaseHeight}};
-        // let boardRatio = baseWidth / baseHeight;
+        let baseWidth = {{.DrawingBoardBaseWidth}};
+        let baseHeight = {{.DrawingBoardBaseHeight}};
+        let boardRatio = baseWidth / baseHeight;
 
         // Moving this here to extract the context after resizing
         const context = drawingBoard.getContext("2d");
