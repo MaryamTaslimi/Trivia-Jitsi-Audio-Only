@@ -345,7 +345,7 @@
     // var button = document.getElementById("button" + counter);
     // while (button) {
     document.getElementById("createbtn").style.visibility = "hidden"
-    var options = Array.form(document.querySelector("#categories").options);
+    var options = Array.from(document.querySelector("#categories").options);
     options.forEach(function(option) {
         var button = document.createElement("button");
         document.getElementById("category-wrapper").appendChild(button);
