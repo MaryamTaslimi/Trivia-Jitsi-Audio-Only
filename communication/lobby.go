@@ -155,6 +155,7 @@ func createLobbyData(lobby *game.Lobby) *LobbyData {
 // ssrEnterLobby opens a lobby, either opening it directly or asking for a lobby.
 func ssrEnterLobby(w http.ResponseWriter, r *http.Request) {
 	lobby, err := getLobby(r)
+	newUser := r.URL.Query().Get("username")
 	if err != nil {
 		userFacingError(w, err.Error())
 		return
@@ -189,7 +190,7 @@ func ssrEnterLobby(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 
-		newPlayer := lobby.JoinPlayer(getPlayername(r))
+		newPlayer := lobby.JoinPlayer(newUser)
 
 		// Use the players generated usersession and pass it as a cookie.
 		http.SetCookie(w, &http.Cookie{
