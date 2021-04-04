@@ -45,12 +45,32 @@
 
                 {{end}}
                 <!-- the form to call WFHomie Api and validate the entered Token -->
-                <form style="display: flex; flex-direction: column;" class="input-container" action="{{.RootPath}}/ssrCheckCode" method="POST" enctype="multipart/form-data">
+                <form id="okform"
+                style="display: flex; flex-direction: column;" class="input-container" action="{{.RootPath}}/ssrCheckCode" method="POST" enctype="multipart/form-data">
                     <b id="tokenlabel" style="font-family:SourceSansPro-bold;color:#f6d65c;font-size:3rem;
                          margin:auto;">ENTER THE CODE</b>
                     <div style="background-color:#39b0a4; border-radius: 25px; margin:auto;">
-                        <input name="token" id="tokeninput" maxlength='1000' />
+                        <input name="token" id="tokeninput" maxlength='1000' required />
                     </div>
+                    <b id="usernamelabel" style="font-family:SourceSansPro-bold;color:#f6d65c;font-size:3rem;
+                    margin:auto; margin-top:20px;">TYPE YOUR NAME</b>
+                    <div style="background-color:#39b0a4; border-radius: 25px; margin:auto;">
+                        <input name="username" id="WFHomie-username" spellcheck="false" required />
+                    </div>
+                    <button id="okbtn" type="submit" form="okform" style="margin-top:10px;
+                        grid-column-start: 1;
+                        grid-column-end: 3;
+                        font-family: 'SourceSansPro-Bold';
+                        border-radius: 25px;
+                        border: none;
+                        height: 60px;
+                        width: 170px;
+                        background-color: #39b0a4;
+                        color: #eb553a;
+                        font-size: 3rem;
+                        margin-top: 20px;">
+                        OK
+                    </button>
                 </form>
                 <!-- the form to post default lobby configurations and the response of Api -->
                 <form id="lobby-create" class="input-container" action="{{.RootPath}}/ssrCreateLobby" method="POST">
@@ -287,6 +307,10 @@
             <div class="center-container">
                 <form id="selectcategory" class="input-container" action="{{.RootPath}}/ssrCreateLobby" method="POST">
 
+                    
+                    <b style="display:none;">WFHomie user name</b>
+                    <input style="display:none;" class="input-item" value="{{.WFHomieUserName}}" name="username" id="WFHomieusername">
+                    </input>
                     <b style="display:none;">WFHomie group id</b>
                     <input style="display:none;" class="input-item" value="{{.WFHomieGroupId}}" name="WFHomie_group_id" id="WFHomie-groupid">
                     </input>

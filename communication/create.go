@@ -22,7 +22,8 @@ import (
 // create a new lobby.
 func homePage(w http.ResponseWriter, r *http.Request) {
 	tokens, ok := r.URL.Query()["token"]
-	if !ok || len(tokens[0]) < 1 {
+	usernames, okey := r.URL.Query()["username"]
+	if !ok || len(tokens[0]) < 1 || !okey || len(usernames[0]) < 1 {
 		err := pageTemplates.ExecuteTemplate(w, "lobby-create-page", createDefaultLobbyCreatePageData())
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -30,6 +31,7 @@ func homePage(w http.ResponseWriter, r *http.Request) {
 	} else {
 		log.Println("here I am")
 		token := tokens[0]
+		username := usernames[0]
 
 		resp, err := http.Get("https://us-central1-wfhomie-85a56.cloudfunctions.net/validate?token=" + token)
 		if err != nil {
@@ -46,10 +48,13 @@ func homePage(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 		}
 		log.Printf(Response.Group_Name)
+		// Response.Group_Name = "WFHomie"
+		// Response.Group_Id = "1"
 		if Response.Group_Id+Response.Group_Name != "" {
 			var lobbycheck bool = LobbyCheck(Response.Group_Id + Response.Group_Name)
 			if lobbycheck == false {
-				err := pageTemplates.ExecuteTemplate(w, "select-category-page", createDefaultSelectCategoryPageData(Response.Group_Name, Response.Group_Id))
+
+				err := pageTemplates.ExecuteTemplate(w, "select-category-page", createDefaultSelectCategoryPageData(username, Response.Group_Name, Response.Group_Id))
 				if err != nil {
 					http.Error(w, err.Error(), http.StatusInternalServerError)
 				}
@@ -75,6 +80,9 @@ type WFHomieResponseApi struct {
 //adding a new service called ssrCheckCode
 func ssrCheckCode(w http.ResponseWriter, r *http.Request) {
 	WFHomiecode := r.FormValue("token")
+	WFHomieusername := r.FormValue("username")
+	log.Println(WFHomiecode)
+	log.Println(WFHomieusername)
 
 	resp, err := http.Get("https://us-central1-wfhomie-85a56.cloudfunctions.net/validate?token=" + WFHomiecode)
 	if err != nil {
@@ -94,19 +102,25 @@ func ssrCheckCode(w http.ResponseWriter, r *http.Request) {
 
 	}
 	log.Printf(Response.Group_Name)
-
-	var lobbycheck bool = LobbyCheck(Response.Group_Id + Response.Group_Name)
-	if lobbycheck == false {
-		err := pageTemplates.ExecuteTemplate(w, "select-category-page", createDefaultSelectCategoryPageData(Response.Group_Name, Response.Group_Id))
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
+	// Response.Group_Name = "WFHomie"
+	// Response.Group_Id = "1"
+	if Response.Group_Id+Response.Group_Name != "" {
+		var lobbycheck bool = LobbyCheck(Response.Group_Id + Response.Group_Name)
+		if lobbycheck == false {
+			err := pageTemplates.ExecuteTemplate(w, "select-category-page", createDefaultSelectCategoryPageData(WFHomieusername, Response.Group_Name, Response.Group_Id))
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+			}
+			// var playerName = getPlayername(r)
+			// LobbyCreate(playerName, Response.Group_Id+Response.Group_Name, Response.Group_Name, r, w)
+		} else {
+			//TODo set cookie
+			http.Redirect(w, r, CurrentBasePageConfig.RootPath+"/ssrEnterLobby?lobby_id="+Response.Group_Id+Response.Group_Name, http.StatusFound)
 		}
-		// var playerName = getPlayername(r)
-		// LobbyCreate(playerName, Response.Group_Id+Response.Group_Name, Response.Group_Name, r, w)
 	} else {
-		//TODo set cookie
-		http.Redirect(w, r, CurrentBasePageConfig.RootPath+"/ssrEnterLobby?lobby_id="+Response.Group_Id+Response.Group_Name, http.StatusFound)
+		userFacingError(w, errors.New("Invalid Code!").Error())
 	}
+
 }
 
 func LobbyCheck(value string) bool {
@@ -157,10 +171,11 @@ func createDefaultLobbyCreatePageData() *CreatePageData {
 	}
 }
 
-func createDefaultSelectCategoryPageData(groupname string, groupid string) *CreatePageData {
+func createDefaultSelectCategoryPageData(username string, groupname string, groupid string) *CreatePageData {
 	return &CreatePageData{
 		BasePageConfig:    CurrentBasePageConfig,
 		SettingBounds:     game.LobbySettingBounds,
+		WFHomieUserName:   username,
 		WFHomieGroupName:  groupname,
 		WFHomieGroupId:    groupid,
 		Languages:         game.SupportedLanguages,
@@ -180,6 +195,7 @@ type CreatePageData struct {
 	*BasePageConfig
 	*game.SettingBounds
 	Errors            []string
+	WFHomieUserName   string
 	WFHomieGroupName  string
 	WFHomieGroupId    string
 	Languages         map[string]string
