@@ -40,11 +40,9 @@ func ReadQuestionsFromApi() {
 	err = json.Unmarshal(themeBody, &themeResponse)
 	if err != nil {
 	}
-	log.Println(themeResponse.Themes)
 	for _, theme := range themeResponse.Themes {
 		link := theme.Link
 		category := theme.Themes
-		log.Println(category)
 
 		resp, err := http.Get(link)
 		if err != nil {
@@ -70,7 +68,6 @@ func ReadQuestionsFromApi() {
 			}
 			defer file.Close()
 			s := reflect.ValueOf(Response[strings.ToLower(category)])
-			log.Println(Response[strings.ToLower(category)][0]["question"])
 			// var Respo WFHomieCategoryApi
 			for i := 0; i < s.Len(); i++ {
 				// ques, error := json.Marshal(s.Index(i))
@@ -88,7 +85,6 @@ func ReadQuestionsFromApi() {
 			}
 			defer file.Close()
 			s := reflect.ValueOf(Response[strings.ToLower(category)])
-			log.Println(Response[strings.ToLower(category)][0]["question"])
 			// var Respo WFHomieCategoryApi
 			for i := 0; i < s.Len(); i++ {
 				// ques, error := json.Marshal(s.Index(i))
@@ -106,58 +102,38 @@ func ReadQuestionsFromApi() {
 
 }
 
+type UserPageData struct {
+	*BasePageConfig
+	WFHomieUserName string
+	WFHomieToken    string
+}
+
+func createDefaultUserPageData(token string) *UserPageData {
+	return &UserPageData{
+		BasePageConfig:  CurrentBasePageConfig,
+		WFHomieUserName: "",
+		WFHomieToken:    token,
+	}
+}
+
 //This file contains the API for the official web client.
 
 // homePage servers the default page for scribble.rs, which is the page to
 // create a new lobby.
 func homePage(w http.ResponseWriter, r *http.Request) {
 	tokens, ok := r.URL.Query()["token"]
-	usernames, okey := r.URL.Query()["username"]
-	if !ok || len(tokens[0]) < 1 || !okey || len(usernames[0]) < 1 {
+	if !ok || len(tokens[0]) < 1 {
 		err := pageTemplates.ExecuteTemplate(w, "lobby-create-page", createDefaultLobbyCreatePageData())
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
 	} else {
-		log.Println("here I am")
 		token := tokens[0]
-		username := usernames[0]
-
-		resp, err := http.Get("https://us-central1-wfhomie-85a56.cloudfunctions.net/validate?token=" + token)
+		err := pageTemplates.ExecuteTemplate(w, "enter-user-page", createDefaultUserPageData(token))
 		if err != nil {
-			///handle the error on the way of calling Api here
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			log.Println(err)
 		}
-		//We Read the response body on the line below.
-		body, err := ioutil.ReadAll(resp.Body)
-		if err != nil {
-			//handle the error in the response of Api here
-		}
-		//Convert the body to type WFHomieResponseApi
-		var Response WFHomieResponseApi
-		err = json.Unmarshal(body, &Response)
-		if err != nil {
-		}
-		log.Printf(Response.Group_Name)
-		// Response.Group_Name = "WFHomie"
-		// Response.Group_Id = "1"
-		if Response.Group_Id+Response.Group_Name != "" {
-			var lobbycheck bool = LobbyCheck(Response.Group_Id + Response.Group_Name)
-			if lobbycheck == false {
-				ReadQuestionsFromApi()
-				err := pageTemplates.ExecuteTemplate(w, "select-category-page", createDefaultSelectCategoryPageData(username, Response.Group_Name, Response.Group_Id))
-				if err != nil {
-					http.Error(w, err.Error(), http.StatusInternalServerError)
-				}
-				// var playerName = getPlayername(r)
-				// LobbyCreate(playerName, Response.Group_Id+Response.Group_Name, Response.Group_Name, r, w)
-			} else {
-				//TODo set cookie
-				http.Redirect(w, r, CurrentBasePageConfig.RootPath+"/ssrEnterLobby?lobby_id="+Response.Group_Id+Response.Group_Name+"&username="+username, http.StatusFound)
-			}
-		} else {
-			userFacingError(w, errors.New("Invalid Code!").Error())
-		}
-
 	}
 }
 
@@ -171,8 +147,6 @@ type WFHomieResponseApi struct {
 func ssrCheckCode(w http.ResponseWriter, r *http.Request) {
 	WFHomiecode := r.FormValue("token")
 	WFHomieusername := r.FormValue("username")
-	log.Println(WFHomiecode)
-	log.Println(WFHomieusername)
 
 	resp, err := http.Get("https://us-central1-wfhomie-85a56.cloudfunctions.net/validate?token=" + WFHomiecode)
 	if err != nil {
