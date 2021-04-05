@@ -7,6 +7,8 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
+	"reflect"
 	"strconv"
 	"strings"
 
@@ -15,6 +17,94 @@ import (
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
 )
+
+type WFHomieThemeApi struct {
+	Themes string `json:"themes"`
+	Link   string `json:"link"`
+	Id     int    `json:"id"`
+}
+
+type WFHomieThemeTitle struct {
+	Themes []WFHomieThemeApi `json:"themes"`
+}
+
+func ReadQuestionsFromApi() {
+	themeResp, err := http.Get("https://api.sheety.co/cd5a2a5093124e1488816a16466a3887/trivia/themes")
+	if err != nil {
+		//handle the error on the way of calling Api here
+
+	}
+	//We Read the response body on the line below.
+	themeBody, err := ioutil.ReadAll(themeResp.Body)
+	var themeResponse WFHomieThemeTitle
+	err = json.Unmarshal(themeBody, &themeResponse)
+	if err != nil {
+	}
+	log.Println(themeResponse.Themes)
+	for _, theme := range themeResponse.Themes {
+		link := theme.Link
+		category := theme.Themes
+		log.Println(category)
+
+		resp, err := http.Get(link)
+		if err != nil {
+			//handle the error on the way of calling Api here
+
+		}
+		body, err := ioutil.ReadAll(resp.Body)
+
+		var Response map[string][]map[string]interface{}
+		err = json.Unmarshal([]byte(body), &Response)
+		if err != nil {
+		}
+
+		if _, err := os.Stat("game/words/" + strings.ToLower(category)); err == nil {
+			file, err := os.OpenFile("game/words/"+strings.ToLower(category), os.O_APPEND|os.O_WRONLY, 0644)
+			if err != nil {
+				log.Println(err)
+			}
+			error := os.Truncate("game/words/"+strings.ToLower(category), 0)
+			if err != nil {
+				log.Fatal(error)
+
+			}
+			defer file.Close()
+			s := reflect.ValueOf(Response[strings.ToLower(category)])
+			log.Println(Response[strings.ToLower(category)][0]["question"])
+			// var Respo WFHomieCategoryApi
+			for i := 0; i < s.Len(); i++ {
+				// ques, error := json.Marshal(s.Index(i))
+				ques := Response[strings.ToLower(category)][i]["question"]
+				ans := Response[strings.ToLower(category)][i]["answer"]
+				if _, err := file.WriteString(strings.TrimSpace(fmt.Sprintf("%v", ques)) + "$" + strings.TrimSpace(fmt.Sprintf("%v", ans)) + "\n"); err != nil {
+					log.Fatal(err)
+				}
+
+			}
+		} else if os.IsNotExist(err) {
+			file, err := os.Create("game/words/" + strings.ToLower(category))
+			if err != nil {
+				log.Fatal(err)
+			}
+			defer file.Close()
+			s := reflect.ValueOf(Response[strings.ToLower(category)])
+			log.Println(Response[strings.ToLower(category)][0]["question"])
+			// var Respo WFHomieCategoryApi
+			for i := 0; i < s.Len(); i++ {
+				// ques, error := json.Marshal(s.Index(i))
+				ques := Response[strings.ToLower(category)][i]["question"]
+				ans := Response[strings.ToLower(category)][i]["answer"]
+				if _, err := file.WriteString(strings.TrimSpace(fmt.Sprintf("%v", ques)) + "$" + strings.TrimSpace(fmt.Sprintf("%v", ans)) + "\n"); err != nil {
+					log.Fatal(err)
+				}
+
+			}
+
+		}
+
+	}
+
+}
 
 //This file contains the API for the official web client.
 
@@ -53,7 +143,7 @@ func homePage(w http.ResponseWriter, r *http.Request) {
 		if Response.Group_Id+Response.Group_Name != "" {
 			var lobbycheck bool = LobbyCheck(Response.Group_Id + Response.Group_Name)
 			if lobbycheck == false {
-
+				ReadQuestionsFromApi()
 				err := pageTemplates.ExecuteTemplate(w, "select-category-page", createDefaultSelectCategoryPageData(username, Response.Group_Name, Response.Group_Id))
 				if err != nil {
 					http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -107,12 +197,11 @@ func ssrCheckCode(w http.ResponseWriter, r *http.Request) {
 	if Response.Group_Id+Response.Group_Name != "" {
 		var lobbycheck bool = LobbyCheck(Response.Group_Id + Response.Group_Name)
 		if lobbycheck == false {
+			ReadQuestionsFromApi()
 			err := pageTemplates.ExecuteTemplate(w, "select-category-page", createDefaultSelectCategoryPageData(WFHomieusername, Response.Group_Name, Response.Group_Id))
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 			}
-			// var playerName = getPlayername(r)
-			// LobbyCreate(playerName, Response.Group_Id+Response.Group_Name, Response.Group_Name, r, w)
 		} else {
 			//TODo set cookie
 			http.Redirect(w, r, CurrentBasePageConfig.RootPath+"/ssrEnterLobby?lobby_id="+Response.Group_Id+Response.Group_Name+"&username="+WFHomieusername, http.StatusFound)
@@ -339,13 +428,8 @@ func parseWFHomieGroupId(value string) string {
 
 func parseLanguage(value string) (string, error) {
 	toLower := strings.ToLower(strings.TrimSpace(value))
-	for languageKey := range game.SupportedLanguages {
-		if toLower == languageKey {
-			return languageKey, nil
-		}
-	}
+	return toLower, nil
 
-	return "", errors.New("the given language doesn't match any supported language")
 }
 
 func parseDrawingTime(value string) (int, error) {

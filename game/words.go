@@ -17,8 +17,8 @@ var (
 		"english":    "en_us",
 		"geography":  "geo",
 		"history":    "his",
-		"science":    "sc",
-		"food":       "f",
+		"science":    "sci",
+		"food":       "foo",
 	}
 
 	//go:embed words/*
@@ -26,7 +26,7 @@ var (
 )
 
 func getLanguageIdentifier(language string) string {
-	return languageIdentifiers[language]
+	return language
 }
 
 // readWordListInternal exists for testing purposes.
