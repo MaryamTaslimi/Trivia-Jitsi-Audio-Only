@@ -598,12 +598,11 @@
 
         function handleCanvasResize() {
             //Resize canvas HTML element properly.
-            drawingBoard.width = drawingBoard.clientWidth;
-            drawingBoard.height = drawingBoard.clientHeight;
-            toolBox.height = toolBox.clientHeight;
+            document.getElementById("question-wrapper").width = document.getElementById("question-wrapper").clientWidth;
+            document.getElementById("question-wrapper").height = document.getElementById("question-wrapper").clientHeight;
             setLineWidth(localLineWidthUnscaled);
-            chat.style.maxHeight = document.getElementById('player-container').height + "px";
-            toolBox.style.top = drawingBoard.height - toolBox.height + "px";
+            chat.style.height = document.getElementById("question-wrapper").height + "px";
+            document.getElementById("player-container").style.height = document.getElementById("question-wrapper").height + "px";
         }
 
         function scaleUpFactor() {
