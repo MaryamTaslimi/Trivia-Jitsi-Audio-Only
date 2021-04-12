@@ -166,8 +166,8 @@ func ssrCheckCode(w http.ResponseWriter, r *http.Request) {
 
 	}
 	log.Printf(Response.Group_Name)
-	// Response.Group_Name = "WFHomie"
-	// Response.Group_Id = "1"
+	Response.Group_Name = "WFHomie"
+	Response.Group_Id = "1"
 	if Response.Group_Id+Response.Group_Name != "" {
 		var lobbycheck bool = LobbyCheck(Response.Group_Id + Response.Group_Name)
 		if lobbycheck == false {
