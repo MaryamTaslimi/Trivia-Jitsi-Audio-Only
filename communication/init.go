@@ -43,6 +43,8 @@ func setupRoutes() {
 	http.HandleFunc(CurrentBasePageConfig.RootPath+"/ssrCheckCode", ssrCheckCode)
 	http.HandleFunc(CurrentBasePageConfig.RootPath+"/ssrEnterLobby", ssrEnterLobby)
 	http.HandleFunc(CurrentBasePageConfig.RootPath+"/ssrCreateLobby", ssrCreateLobby)
+	http.HandleFunc(CurrentBasePageConfig.RootPath+"/ssrCallBackApi", ssrCallBackApi)
+	http.HandleFunc(CurrentBasePageConfig.RootPath+"/ssrVerifyApi", ssrVerifyApi)
 
 	http.HandleFunc(CurrentBasePageConfig.RootPath+"/v1/stats", stats)
 	//The websocket is shared between the public API and the official client

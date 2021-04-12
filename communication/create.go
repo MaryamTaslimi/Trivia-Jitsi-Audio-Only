@@ -11,7 +11,9 @@ import (
 	"reflect"
 	"strconv"
 	"strings"
+	"time"
 
+	"github.com/gofrs/uuid"
 	"github.com/scribble-rs/scribble.rs/game"
 	"github.com/scribble-rs/scribble.rs/state"
 	"golang.org/x/text/cases"
@@ -148,37 +150,37 @@ func ssrCheckCode(w http.ResponseWriter, r *http.Request) {
 	WFHomiecode := r.FormValue("token")
 	WFHomieusername := r.FormValue("username")
 
-	resp, err := http.Get("https://us-central1-wfhomie-85a56.cloudfunctions.net/validate?token=" + WFHomiecode)
-	if err != nil {
-		///handle the error on the way of calling Api here
+	// resp, err := http.Get("https://us-central1-wfhomie-85a56.cloudfunctions.net/validate?token=" + WFHomiecode)
+	// if err != nil {
+	// 	///handle the error on the way of calling Api here
 
-	}
-	//We Read the response body on the line below.
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		//handle the error in the response of Api here
+	// }
+	// //We Read the response body on the line below.
+	// body, err := ioutil.ReadAll(resp.Body)
+	// if err != nil {
+	// 	//handle the error in the response of Api here
 
-	}
-	//Convert the body to type WFHomieResponseApi
-	var Response WFHomieResponseApi
-	err = json.Unmarshal(body, &Response)
-	if err != nil {
+	// }
+	// //Convert the body to type WFHomieResponseApi
+	// var Response WFHomieResponseApi
+	// err = json.Unmarshal(body, &Response)
+	// if err != nil {
 
-	}
-	log.Printf(Response.Group_Name)
-	Response.Group_Name = "WFHomie"
-	Response.Group_Id = "1"
-	if Response.Group_Id+Response.Group_Name != "" {
-		var lobbycheck bool = LobbyCheck(Response.Group_Id + Response.Group_Name)
+	// }
+	// log.Printf(Response.Group_Name)
+	// Response.Group_Name = "WFHomie"
+	// Response.Group_Id = "1"
+	if WFHomiecode != "" {
+		var lobbycheck bool = LobbyCheck(WFHomiecode)
 		if lobbycheck == false {
 			ReadQuestionsFromApi()
-			err := pageTemplates.ExecuteTemplate(w, "select-category-page", createDefaultSelectCategoryPageData(WFHomieusername, Response.Group_Name, Response.Group_Id))
+			err := pageTemplates.ExecuteTemplate(w, "select-category-page", createDefaultSelectCategoryPageData(WFHomieusername, WFHomiecode))
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 			}
 		} else {
 			//TODo set cookie
-			http.Redirect(w, r, CurrentBasePageConfig.RootPath+"/ssrEnterLobby?lobby_id="+Response.Group_Id+Response.Group_Name+"&username="+WFHomieusername, http.StatusFound)
+			http.Redirect(w, r, CurrentBasePageConfig.RootPath+"/ssrEnterLobby?lobby_id="+WFHomiecode+"&username="+WFHomieusername, http.StatusFound)
 		}
 	} else {
 		userFacingError(w, errors.New("Invalid Code!").Error())
@@ -234,13 +236,12 @@ func createDefaultLobbyCreatePageData() *CreatePageData {
 	}
 }
 
-func createDefaultSelectCategoryPageData(username string, groupname string, groupid string) *CreatePageData {
+func createDefaultSelectCategoryPageData(username string, tokeninput string) *CreatePageData {
 	return &CreatePageData{
 		BasePageConfig:    CurrentBasePageConfig,
 		SettingBounds:     game.LobbySettingBounds,
 		WFHomieUserName:   username,
-		WFHomieGroupName:  groupname,
-		WFHomieGroupId:    groupid,
+		WFHomieGroupName:  tokeninput,
 		Languages:         game.SupportedLanguages,
 		Public:            "true",
 		DrawingTime:       "20",
@@ -273,6 +274,63 @@ type CreatePageData struct {
 	Language          string
 }
 
+type callbackapi struct {
+	Lxid     string `json:"lxid"`
+	StartsOn string `json:"starts_on"`
+}
+
+func ssrCallBackApi(w http.ResponseWriter, r *http.Request) {
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		//handle the error in the response of Api here
+
+	}
+	var Response callbackapi
+	err = json.Unmarshal([]byte(body), &Response)
+	if Response.Lxid == "" || Response.StartsOn == "" {
+		w.WriteHeader(http.StatusNonAuthoritativeInfo)
+	} else {
+		Res := map[string]string{
+			"id":         uuid.Must(uuid.NewV4()).String(),
+			"lxid":       Response.Lxid,
+			"created_at": time.Now().Format(time.RFC3339),
+		}
+		ResBody, err := json.Marshal(Res)
+		log.Println(Res["id"])
+
+		file, err := os.OpenFile("game/words/loginAuth", os.O_APPEND|os.O_WRONLY, 0644)
+		if err != nil {
+			log.Println(err)
+		}
+		defer file.Close()
+
+		if _, err := file.WriteString(Res["id"] + "$" + Response.Lxid + "#" + Response.StartsOn + "\n"); err != nil {
+			log.Fatal(err)
+		}
+
+		if err != nil {
+		}
+		log.Println("here the code 201")
+		w.WriteHeader(http.StatusCreated)
+		w.Write(ResBody)
+	}
+}
+
+func ssrVerifyApi(w http.ResponseWriter, r *http.Request) {
+	lxids, ok := r.URL.Query()["lxid"]
+	sxids, ok := r.URL.Query()["sxid"]
+	roles, ok := r.URL.Query()["role"]
+	if !ok || len(roles[0]) < 1 || len(sxids[0]) < 1 || len(lxids[0]) < 1 {
+		userFacingError(w, errors.New("Invalid Code!").Error())
+	} else {
+		err := pageTemplates.ExecuteTemplate(w, "enter-user-page", createDefaultUserPageData(lxids[0]))
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			log.Println(err)
+		}
+	}
+}
+
 // ssrCreateLobby allows creating a lobby, optionally returning errors that
 // occurred during creation.
 func ssrCreateLobby(w http.ResponseWriter, r *http.Request) {
@@ -282,7 +340,6 @@ func ssrCreateLobby(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	WFHomiegroupId := parseWFHomieGroupId(r.Form.Get("WFHomie_group_id"))
 	// WFHomieplayerId := parseWFHomiePlayerId(r.Form.Get("WFHomie_player_id"))
 	WFHomiegroupName := parseWFHomieGroupName(r.Form.Get("WFHomie_group_name"))
 	// WFHmoieplayerName := parseWFHomiePlayerName(r.Form.Get("WFHomie_player_name"))
@@ -351,7 +408,7 @@ func ssrCreateLobby(w http.ResponseWriter, r *http.Request) {
 	// var playerName = parseWFHomiePlayerName(r.Form.Get("WFHomie_player_name"))
 	// var groupName = parseWFHomieGroupName(r.Form.Get("WFHomie_group_name"))
 
-	player, lobby, createError := game.CreateLobby(playerName, WFHomiegroupId+WFHomiegroupName, WFHomiegroupName, language, publicLobby, drawingTime, rounds, maxPlayers, customWordChance, clientsPerIPLimit, customWords, enableVotekick)
+	player, lobby, createError := game.CreateLobby(playerName, WFHomiegroupName, WFHomiegroupName, language, publicLobby, drawingTime, rounds, maxPlayers, customWordChance, clientsPerIPLimit, customWords, enableVotekick)
 	if createError != nil {
 		pageData.Errors = append(pageData.Errors, createError.Error())
 		return
