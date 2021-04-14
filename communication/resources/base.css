@@ -1,18 +1,35 @@
-html, body {
+html {
     height: 100vh;
+    background-image: url("background-img.png");
+    background-repeat: repeat;
+    background-color: #eb553a;
+    background-size: 256px;
 }
 
 body {
-    font-family: 'SourceSansPro-Bold';
-    background-color: #eb553a;
+    font-family: 'Nunito-Black';
+    height: 100vh;
     margin: 0;
 }
 
 .content-wrapper {
-    display: flex;
+   /* display: flex;
     flex-direction: column;
+    height: 100%;*/
+    display: flex;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
     height: 100%;
-    
+    margin: auto;
+    padding: 0;
+    z-index: 0;
+    overflow-x: auto;
+    overflow-y: auto;
+    justify-content: center;
 }
 
 footer {
@@ -72,15 +89,16 @@ ul {
     /* Little hack in order to hide the original components of the check/radio button */
     opacity: 0.0;
     position: absolute;
+    border-radius: 10px;
 }
 
 .input-container {
     justify-content: center;
     align-items: center;
-    display: inline-grid;
+    /* display: inline-grid;
     grid-template-columns: auto auto;
     grid-column-gap: 0px;
-    grid-row-gap: 10px;
+    grid-row-gap: 10px;*/
     justify-items: center;
 }
 
@@ -89,8 +107,25 @@ ul {
     grid-column-end: 3;
 }
 
-.wfhomie-scribble-img {
-    height: 65px;
-    width: 410px;
-    float: left;
+.header {
+    /* height: 65px;
+    width: 500px;
+    float: left; */
+    position: relative;
+    z-index: 2;
+    margin: auto;
+    margin-top: -30px;
+    width: 100%;
+    /* padding: 0px 20px; */
+    padding-top: 5px;
+    display: inline-block;
+    text-align: center;
+}
+
+#wfhomie-scribble-img {
+    text-align: center;
+    margin-top: 0;
+    /* margin-bottom: 15px; */
+    height: 50px;
+    width: 350px;
   }
