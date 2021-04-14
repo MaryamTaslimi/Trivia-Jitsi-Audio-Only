@@ -68,7 +68,7 @@
 <body>
     <div class="content-wrapper" style="flex-direction: column;">
         <noscript><span class="noscript">This website requires JavaScript to run properly.</span></noscript>
-        <div id=category-wrapper></div>
+        <div id=category-wrapper style="margin-bottom: 0px;"></div>
         <div id="select-category">
             <div class="center-container" style="display: flex;
             flex-direction: column;
@@ -78,7 +78,8 @@
             margin-bottom: 10px;
             background: transparent;
             box-shadow:none;
-            border: none;">
+            border: none;
+            margin-bottom: 100px;">
                 <form id="selectcategory" class="input-container" action="{{.RootPath}}/ssrCreateLobby" method="POST">
 
 
@@ -131,7 +132,7 @@
                                 .EnableVotekick "true" }}checked{{end}} />
                         </div>
                     </details>
-                    <button id="createbtn" type="submit" form="selectcategory">
+                    <button id="createbtn" class="btn" type="submit" form="selectcategory">
                         Create session
                     </button>
                 </form>
@@ -149,7 +150,7 @@
     options.forEach(function (option) {
         var button = document.createElement("button");
         document.getElementById("category-wrapper").appendChild(button);
-        button.classList.add("category-box");
+        button.classList.add("category-box","btn");
         button.textContent = option.value;
         button.addEventListener("click", function () {
             btnclick(this.textContent);

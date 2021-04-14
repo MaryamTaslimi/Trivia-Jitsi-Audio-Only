@@ -1,17 +1,23 @@
 .category-box {
     margin: 20px;
     height: 150px;
-    background-color: transparent;
+    background-color: #f6d65c;
     border: 0px;
     font-family: "Nunito-Bold";
     font-size: xx-large;
-    color: #f6d65c;
+    color: #eb553a;
     border-radius: 15px 15px 15px 15px;
     box-shadow: 4px 4px 10px 2px rgb(0 0 0 / 20%);
 }
 
 .category-box:hover {
-    background-color: #fff
+    background-color: #00569e;
+    color: White;
+}
+
+.category-box:focus{
+    background-color: #00569e;
+    color: White;
 }
 
 #category-wrapper {
@@ -41,15 +47,15 @@
 
 #createbtn{
     width: 175px;
-    height: 60px;
+    height: 100px;
     border: 2px solid #053da5;
     background: #00569e;
     font-family: 'Komika';
     font-size: 20px;
     color: #fff;
-    border-radius: 20px;
+    border-radius: 15px;
     outline: 0 !important;
-    margin-top: 30px;
+    margin-top: 15px;
     margin-bottom: 15px;
     margin-right: 1px;
     box-shadow: none !important;
