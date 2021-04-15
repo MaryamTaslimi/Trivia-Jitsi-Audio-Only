@@ -590,8 +590,12 @@
             setLineWidth(localLineWidthUnscaled);
             //chat.style.maxHeight = document.getElementById("question-wrapper").height + "px";
             //document.getElementById("player-container").style.height = document.getElementById("question-wrapper").height + "px";
-            document.getElementById("message-container-outer").style.maxHeight =  document.getElementById("question-wrapper").clientHeight + "px";
-            chat.style.height = document.getElementById("question-wrapper").clientHeight + "px";
+            // document.getElementById("message-container-outer").style.maxHeight =  document.getElementById("question-wrapper").clientHeight + "px";
+            chat.style.maxHeight = document.getElementById("question-wrapper").clientHeight + "px";
+            // chat.style.height = document.getElementById("question-wrapper").clientHeight + "px";
+            // document.getElementById("message-input").style.height = document.getElementById("question-wrapper").clientHeight-document.getElementById("message-container-outer").height+"px";
+            document.getElementById("player-container").style.maxHeight = document.getElementById("question-wrapper").clientHeight + "px";
+            document.getElementById("player-container").style.height = document.getElementById("question-wrapper").clientHeight + "px";
         }
 
         function scaleUpFactor() {
