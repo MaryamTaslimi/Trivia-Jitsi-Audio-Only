@@ -1493,7 +1493,10 @@
                 },
                 interfaceConfigOverwrite: {
                     TILE_VIEW_MAX_COLUMNS: 2,
-                    SHOW_CHROME_EXTENSION_BANNER: false
+                    SHOW_CHROME_EXTENSION_BANNER: false,
+                    TOOLBAR_ALWAYS_VISIBLE: false,
+                    TOOLBAR_BUTTONS: ['microphone','camera'],
+                    HIDE_INVITE_MORE_HEADER : true
                 }
             }
             var api = new JitsiMeetExternalAPI(domain, options);
