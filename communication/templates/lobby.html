@@ -593,7 +593,7 @@
             // document.getElementById("message-container-outer").style.maxHeight =  document.getElementById("question-wrapper").clientHeight + "px";
             var res = window.screen.height;
             console.log(res);
-            document.getElementById("drawing-board-wrapper").style.paddingBottom = window.screen.height*0.5 + "px";
+            document.getElementById("drawing-board-wrapper").style.paddingBottom = window.screen.height * 0.5 + "px";
             document.getElementById("player-container").style.maxHeight = document.getElementById("question-wrapper").clientHeight + "px";
             document.getElementById("player-container").style.height = document.getElementById("question-wrapper").clientHeight + "px";
             chat.style.maxHeight = document.getElementById("question-wrapper").clientHeight + "px";
@@ -1479,24 +1479,23 @@
             let videoConferenceJoined = false;
             // set with an string to default value, "John Doe" by example
             localDisplayName = document.getElementById("namechange-field-start-dialog").value;
-            console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + localDisplayName);
-
             var domain = "meet.jit.si";
             var options = {
                 roomName: '{{.LobbyID}}',
                 width: document.getElementById("question-wrapper").clientWidth + 460,
                 height: 150,
-                allow: "microphone; camera",
+                allow: "microphone",
                 parentNode: document.getElementById("jitsi"),
                 configOverwrite: {
-                    prejoinPageEnabled: false
+                    prejoinPageEnabled: false,
+                    startAudioOnly: true
                 },
                 interfaceConfigOverwrite: {
                     TILE_VIEW_MAX_COLUMNS: 6,
                     SHOW_CHROME_EXTENSION_BANNER: false,
                     TOOLBAR_ALWAYS_VISIBLE: false,
-                    TOOLBAR_BUTTONS: ['microphone','camera'],
-                    HIDE_INVITE_MORE_HEADER : true
+                    TOOLBAR_BUTTONS: ['microphone'],
+                    HIDE_INVITE_MORE_HEADER: true
                 }
             }
             var api = new JitsiMeetExternalAPI(domain, options);
